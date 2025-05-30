@@ -1,4 +1,5 @@
 import customtkinter as ctik
+from widgets import cell
 
 class App(ctik.CTk):
     def __init__(self):
@@ -6,6 +7,9 @@ class App(ctik.CTk):
 
         self.geometry("800x600")
         self.title("Exprint 2")
+
+        self.cell1 = cell.Cell(self)
+        self.cell1.grid(row=0, column=0)
 
 
 
