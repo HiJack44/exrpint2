@@ -8,7 +8,7 @@ class App(ctik.CTk):
         self.geometry("800x600")
         self.title("Exprint 2")
 
-        self.cell1 = cell.Cell(self)
+        self.cell1 = cell.Cell(self, width=80, height=12, corner_radius=0)
         self.cell1.grid(row=0, column=0)
 
 
