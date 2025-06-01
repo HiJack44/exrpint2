@@ -119,7 +119,7 @@
     "text_color_disabled": ["gray74", "gray60"]
   },
   "CTkTextbox": {
-    "corner_radius": 6,
+    "corner_radius": 0,
     "border_width": 0,
     "fg_color": ["#F9F9FA", "#1D1E1E"],
     "border_color": ["#979DA2", "#565B5E"],
