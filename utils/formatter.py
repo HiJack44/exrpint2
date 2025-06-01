@@ -1,0 +1,1 @@
+#this set of functions will format the text from cells and send them to the sticker labels
