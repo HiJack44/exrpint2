@@ -22,8 +22,8 @@
     "text_color_disabled": ["gray74", "gray60"]
   },
   "CTkLabel": {
-    "corner_radius": 0,
-    "fg_color": "transparent",
+    "corner_radius": 6,
+    "fg_color": "green",
     "text_color": ["gray14", "gray84"]
   },
   "CTkEntry": {

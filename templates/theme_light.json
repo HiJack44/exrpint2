@@ -22,7 +22,7 @@
     "text_color_disabled": ["gray74", "gray60"]
   },
   "CTkLabel": {
-    "corner_radius": 0,
+    "corner_radius": 6,
     "fg_color": "transparent",
     "text_color": ["gray10", "#DCE4EE"]
   },

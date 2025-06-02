@@ -1,5 +1,5 @@
 import customtkinter as ctik
-from widgets import cell
+from widgets import cell, sticker
 
 class App(ctik.CTk):
     def __init__(self):
@@ -11,6 +11,9 @@ class App(ctik.CTk):
 
         self.cell1 = cell.Cell(self, width=80, height=12)
         self.cell1.grid(row=0, column=0)
+
+        self.sticker1 = sticker.Sticker(self)
+        self.sticker1.grid(row=0, column=1)
 
 
 
