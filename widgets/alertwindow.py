@@ -2,6 +2,6 @@
 import customtkinter as ctik
 
 class AlertWindow(ctik.CTkToplevel):
-    def __init__(self, master, *args, **kwargs):
-        super().__init__(master, *args, **kwargs)
+    def __init__(self, master, msg, *args, **kwargs):
+        super().__init__(master, msg, *args, **kwargs)
 
