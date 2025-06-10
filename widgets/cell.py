@@ -7,3 +7,6 @@ class Cell(ctik.CTkTextbox):
 
         self.row = row
         self.column = column
+
+    def __str__(self):
+        return f"Hello, I am cell {self.column}{self.row}"
