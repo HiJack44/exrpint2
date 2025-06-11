@@ -3,6 +3,7 @@
 import customtkinter as ctik
 from widgets import cell
 from constants import auc
+from utils import events as evn
 
 
 # Cellframe class to spawn the cells
@@ -39,6 +40,17 @@ class Cellframe(ctik.CTkScrollableFrame):
 
                 # Addition of the cell to the cells dictionary
                 self.cells[col_letter].append(cl)
+
+                # Binding the keys to functions
+                self.cells[col_letter][row].bind("<Return>", evn.next_row)
+                self.cells[col_letter][row].bind(
+                    "<Tab>",
+                    lambda event, master=self, row=row, col=auc[col + 1]: evn.next_cell(
+                        event, master, col, row
+                    ),
+                )
+                self.cells[col_letter][row].focus_set()
+                self.cells['A'][0].focus_set()
 
                 row += 1
             col += 1
