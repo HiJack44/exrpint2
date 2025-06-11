@@ -19,7 +19,7 @@ class Cellframe(ctik.CTkScrollableFrame):
         self.cells = {}
 
         # cell generation loop
-        for col in range(3):
+        for col in range(5):
 
             # Renaming of the column number to letter. Letter is used with row number to adress the cell
             col_letter = auc[col]
@@ -29,7 +29,7 @@ class Cellframe(ctik.CTkScrollableFrame):
                 self.cells[col_letter] = []
 
             # row and cell generation
-            for row in range(2):
+            for row in range(7):
                 uid = f"{col_letter}{row}"
 
                 # Creation of the cell widget from the Cell class in the cell.py
@@ -42,38 +42,42 @@ class Cellframe(ctik.CTkScrollableFrame):
                 self.cells[col_letter].append(cl)
 
                 # Binding the keys to functions
-                #Down movement
-                self.cells[col_letter][row].bind("<Return>", evn.next_row)
-                self.cells[col_letter][row].bind("<Down>", evn.next_row)
-                #Right movement
-                self.cells[col_letter][row].bind(
-                    "<Tab>",
-                    lambda event, master=self, row=row, col=auc[col + 1]: evn.next_cell(
-                        event, master, col, row
-                    ),
-                )
-                self.cells[col_letter][row].bind(
-                    "<Right>",
-                    lambda event, master=self, row=row, col=auc[col + 1]: evn.next_cell(
-                        event, master, col, row
-                    ),
-                )
-                #Left movement
+                downkeys = ["<Return>", "<Down>", "KP_Enter"]
+                rightkeys = ["<Right>", "<Tab>"]
+
+                # Down movement
+                for key in downkeys:
+                    self.cells[col_letter][row].bind(
+                        key,
+                        lambda event, master=self, row=row + 1, col=col_letter: evn.next_cell(
+                            event, master, col, row
+                        ),
+                    )
+                # Right movement
+                for key in rightkeys:
+                    self.cells[col_letter][row].bind(
+                        key,
+                        lambda event, master=self, row=row, col=auc[
+                            col + 1
+                        ]: evn.next_cell(event, master, col, row),
+                    )
+
+                # Left movement
                 self.cells[col_letter][row].bind(
                     "<Left>",
                     lambda event, master=self, row=row, col=auc[col - 1]: evn.next_cell(
                         event, master, col, row
                     ),
                 )
-                #Up movement
+                # Up movement
                 self.cells[col_letter][row].bind(
                     "<Up>",
-                    lambda event, master=self, row=row-1, col=auc[col]: evn.next_cell(
+                    lambda event, master=self, row=row - 1, col=auc[col]: evn.next_cell(
                         event, master, col, row
                     ),
                 )
                 self.cells[col_letter][row].focus_set()
-                self.cells['A'][0].focus_set()
+                self.cells["A"][0].focus_set()
 
                 row += 1
             col += 1
