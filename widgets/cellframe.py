@@ -42,10 +42,33 @@ class Cellframe(ctik.CTkScrollableFrame):
                 self.cells[col_letter].append(cl)
 
                 # Binding the keys to functions
+                #Down movement
                 self.cells[col_letter][row].bind("<Return>", evn.next_row)
+                self.cells[col_letter][row].bind("<Down>", evn.next_row)
+                #Right movement
                 self.cells[col_letter][row].bind(
                     "<Tab>",
                     lambda event, master=self, row=row, col=auc[col + 1]: evn.next_cell(
+                        event, master, col, row
+                    ),
+                )
+                self.cells[col_letter][row].bind(
+                    "<Right>",
+                    lambda event, master=self, row=row, col=auc[col + 1]: evn.next_cell(
+                        event, master, col, row
+                    ),
+                )
+                #Left movement
+                self.cells[col_letter][row].bind(
+                    "<Left>",
+                    lambda event, master=self, row=row, col=auc[col - 1]: evn.next_cell(
+                        event, master, col, row
+                    ),
+                )
+                #Up movement
+                self.cells[col_letter][row].bind(
+                    "<Up>",
+                    lambda event, master=self, row=row-1, col=auc[col]: evn.next_cell(
                         event, master, col, row
                     ),
                 )
