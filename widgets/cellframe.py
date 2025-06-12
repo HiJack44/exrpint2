@@ -19,9 +19,10 @@ class Cellframe(ctik.CTkScrollableFrame):
         self.cells = {}
 
         # cell generation loop
-        for col in range(5):
+        for col in range(6):
 
-            # Renaming of the column number to letter. Letter is used with row number to adress the cell
+            # Renaming of the column number to letter.
+            # Letter is used with row number to adress the cell
             col_letter = auc[col]
 
             # if to check if column already exists, if not: create it
@@ -29,7 +30,7 @@ class Cellframe(ctik.CTkScrollableFrame):
                 self.cells[col_letter] = []
 
             # row and cell generation
-            for row in range(7):
+            for row in range(10):
                 uid = f"{col_letter}{row}"
 
                 # Creation of the cell widget from the Cell class in the cell.py
