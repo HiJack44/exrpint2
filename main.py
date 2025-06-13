@@ -1,5 +1,5 @@
 import customtkinter as ctik
-from widgets import cell, sticker, cellframe
+from widgets import cell, sticker, cellframe, tab
 
 #Main function of the program
 class App(ctik.CTk):
@@ -13,8 +13,11 @@ class App(ctik.CTk):
         #self.grid_columnconfigure(0,weight=1)
 
         #placing of the cellframe to the window
-        cellfield1 = cellframe.Cellframe(self,width=400)
-        cellfield1.grid(row=0, column=0)
+        #cellfield1 = cellframe.Cellframe(self,width=400)
+        #cellfield1.grid(row=0, column=0)
+
+        tabview = tab.Tab(self, width=500)
+        tabview.grid(row=0, column=0)
 
         self.sticker1 = sticker.Sticker(self)
         self.sticker1.grid(row=0, column=1)
