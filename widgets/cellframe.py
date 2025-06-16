@@ -8,18 +8,22 @@ from utils import events as evn
 
 # Cellframe class to spawn the cells
 class Cellframe(ctik.CTkScrollableFrame):
-    def __init__(self, master, *args, **kwargs):
+    def __init__(self, master, row_count, col_count, cw, ch, *args, **kwargs):
         super().__init__(master, *args, **kwargs)
 
+        #Amount of rows and columns
+        self.row_count = row_count
+        self.col_count = col_count
+
         # width and height of the cells
-        self.c_width = 40
-        self.c_height = 1
+        self.c_width = cw
+        self.c_height = ch
 
         # dictionary that wraps the cells
         self.cells = {}
 
         # cell generation loop
-        for col in range(6):
+        for col in range(col_count):
 
             # Renaming of the column number to letter.
             # Letter is used with row number to adress the cell
@@ -30,7 +34,7 @@ class Cellframe(ctik.CTkScrollableFrame):
                 self.cells[col_letter] = []
 
             # row and cell generation
-            for row in range(10):
+            for row in range(row_count):
                 uid = f"{col_letter}{row}"
 
                 # Creation of the cell widget from the Cell class in the cell.py
