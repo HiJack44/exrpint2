@@ -10,3 +10,7 @@ class Cell(ctik.CTkTextbox):
 
     def __str__(self):
         return f"Hello, I am cell {self.column}{self.row}"
+
+    def get_text(self):
+        text = self.get('0.0', 'end')
+        return "This is text" + text

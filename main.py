@@ -1,5 +1,6 @@
 import customtkinter as ctik
-from widgets import cell, sticker, cellframe, tab
+from widgets import cell, sticker, tab
+from utils import formatter as f
 
 #Main function of the program
 class App(ctik.CTk):
@@ -12,15 +13,16 @@ class App(ctik.CTk):
         ctik.set_default_color_theme("templates/theme_dark.json")
         self.grid_columnconfigure((0,1),weight=1)
 
-        #placing of the cellframe to the window
-        #cellfield1 = cellframe.Cellframe(self,width=400)
-        #cellfield1.grid(row=0, column=0)
-
-        tabview = tab.Tab(self)
-        tabview.grid(row=0, column=0)
+        #Placing the tabview with cellframes
+        self.tabview = tab.Tab(self)
+        self.tabview.grid(row=1, column=0)
 
         self.sticker1 = sticker.Sticker(self)
-        self.sticker1.grid(row=0, column=1)
+        self.sticker1.grid(row=1, column=1)
+
+        #Placing buttons
+        self.format_button = ctik.CTkButton(self, text="Format", command=lambda: f.pritn_all_cells(self.tabview.cellfield1))
+        self.format_button.grid(row=0, column=0, padx=1, pady=1)
 
 
 

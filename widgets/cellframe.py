@@ -86,3 +86,4 @@ class Cellframe(ctik.CTkScrollableFrame):
 
                 row += 1
             col += 1
+            #self.cells['A'][1].get_text()

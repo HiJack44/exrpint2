@@ -14,10 +14,12 @@ class Tab(ctik.CTkTabview):
         self.add("Rezervace")
 
         #Placing the cellframe for customer data
-        cellfield1 = cellframe.Cellframe(self.tab("Zákazníci"), row_count=10, col_count=8, cw=40, ch=1, width=250)
-        cellfield1.grid(row=0, column=0)
+        self.cellfield1 = cellframe.Cellframe(self.tab("Zákazníci"), row_count=10, col_count=8, cw=40, ch=1, width=250)
+        self.cellfield1.grid(row=0, column=0)
 
         #Placing the cellframe for reservation data
         reserv1 = cellframe.Cellframe(self.tab("Rezervace"), row_count=6, col_count=1, cw=200, ch=1, width=200)
         reserv1.grid(row=0, column=0)
+
+
 
