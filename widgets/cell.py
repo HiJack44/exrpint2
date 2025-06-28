@@ -5,7 +5,7 @@ class Cell(ctik.CTkTextbox):
     def __init__(self, master, row, column, *args, **kwargs):
         super().__init__(master, *args, **kwargs)
 
-        self.row = row
+        self.row = row + 1
         self.column = column
 
     def __str__(self):

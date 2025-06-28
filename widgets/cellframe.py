@@ -4,6 +4,7 @@ import customtkinter as ctik
 from widgets import cell
 from constants import auc
 from utils import events as evn
+import pyperclip as pc
 
 
 # Cellframe class to spawn the cells
@@ -11,6 +12,9 @@ class Cellframe(ctik.CTkScrollableFrame):
     def __init__(self, master, row_count, col_count, cw, ch, *args, **kwargs):
         super().__init__(master, *args, **kwargs)
 
+        #Grid configuration
+        #self.grid_rowconfigure((0,1), weight=1)
+        #self.grid_columnconfigure((0,7), weight=1)
         #Amount of rows and columns
         self.row_count = row_count
         self.col_count = col_count
@@ -28,6 +32,8 @@ class Cellframe(ctik.CTkScrollableFrame):
             # Renaming of the column number to letter.
             # Letter is used with row number to adress the cell
             col_letter = auc[col]
+            self.letter_label = ctik.CTkLabel(self, text=col_letter, fg_color='transparent')
+            self.letter_label.grid(row=1, column=col)
 
             # if to check if column already exists, if not: create it
             if col_letter not in self.cells:
@@ -41,7 +47,8 @@ class Cellframe(ctik.CTkScrollableFrame):
                 cl = cell.Cell(
                     self, row, col_letter, width=self.c_width, height=self.c_height
                 )
-                cl.grid(row=row, column=col, padx=1, pady=1)
+                cl.grid(row=row+3, column=col, padx=1, pady=1, sticky='ew')
+                self.grid_columnconfigure(col, weight=1)
 
                 # Addition of the cell to the cells dictionary
                 self.cells[col_letter].append(cl)
@@ -81,9 +88,14 @@ class Cellframe(ctik.CTkScrollableFrame):
                         event, master, col, row
                     ),
                 )
+                #Paste ctrl+v keys binding
+                #self.cells[col_letter][row].bind("<Control-c>", lambda event, copyii=pc.copy: evn.copy_some(event, copyii))
+                try:
+                    self.cells[col_letter][row].bind("<Control-v>", evn.get_paste)
+                except:
+                    print("Cant control v")
                 self.cells[col_letter][row].focus_set()
                 self.cells["A"][0].focus_set()
 
                 row += 1
             col += 1
-            #self.cells['A'][1].get_text()
