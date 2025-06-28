@@ -1,5 +1,6 @@
 #Key-bound events
 import pyperclip as pc
+import clipboard
 
 #Focus the cell in the next column
 def next_cell(event,master,column, row):
@@ -10,16 +11,26 @@ def next_cell(event,master,column, row):
         print("Out of range")
     return "break"
 
-def get_paste(event):
+#Copy function bound to Ctrl+c keys
+def custom_copy(event):
     try:
-        text = pc.paste()
-        print(text)
-    except:
-        print("An error occured")
+        widget = event.widget
+        text = widget.selection_get()
+        widget.clipboard_clear()
+        widget.clipboard_append(text)
+        print("Copied:", text)
+
+    except Exception as e:
+        print("Copy error:", e)
     return "break"
 
-def copy_some(event, copyii):
-    text = copyii
-    print(text)
-
+#Paste function bound to Ctrl+v keys
+def custom_paste(event):
+    try:
+        widget = event.widget
+        text = widget.clipboard_get()
+        widget.insert("insert", text)
+        print("Pasted:",text)
+    except Exception as e:
+        print("Paste error:", e)
     return "break"

@@ -4,8 +4,7 @@ import customtkinter as ctik
 from widgets import cell
 from constants import auc
 from utils import events as evn
-import pyperclip as pc
-
+import clipboard as clip
 
 # Cellframe class to spawn the cells
 class Cellframe(ctik.CTkScrollableFrame):
@@ -88,14 +87,16 @@ class Cellframe(ctik.CTkScrollableFrame):
                         event, master, col, row
                     ),
                 )
-                #Paste ctrl+v keys binding
-                #self.cells[col_letter][row].bind("<Control-c>", lambda event, copyii=pc.copy: evn.copy_some(event, copyii))
+                #Copy ctrl+c keys binding
+                self.cells[col_letter][row].bind("<Control-c>", evn.custom_copy)
+                # Paste ctrl+v keys binding
                 try:
-                    self.cells[col_letter][row].bind("<Control-v>", evn.get_paste)
+                    self.cells[col_letter][row].bind("<Control-v>", evn.custom_paste)
                 except:
                     print("Cant control v")
-                self.cells[col_letter][row].focus_set()
-                self.cells["A"][0].focus_set()
 
                 row += 1
             col += 1
+
+            # Focus on first cell after loading the program
+            self.cells["A"][0].focus_set()
