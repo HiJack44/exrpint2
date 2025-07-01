@@ -24,6 +24,7 @@ class Cellframe(ctik.CTkScrollableFrame):
 
         # dictionary that wraps the cells
         self.cells = {}
+        self.checkboxes = []
 
         # cell generation loop
         for col in range(col_count):
@@ -33,6 +34,7 @@ class Cellframe(ctik.CTkScrollableFrame):
             col_letter = auc[col]
             self.letter_label = ctik.CTkLabel(self, text=col_letter, fg_color='transparent')
             self.letter_label.grid(row=1, column=col)
+            #self.col_checker =
 
             # if to check if column already exists, if not: create it
             if col_letter not in self.cells:
@@ -91,7 +93,8 @@ class Cellframe(ctik.CTkScrollableFrame):
                 self.cells[col_letter][row].bind("<Control-c>", evn.custom_copy)
                 # Paste ctrl+v keys binding
                 try:
-                    self.cells[col_letter][row].bind("<Control-v>", evn.custom_paste)
+                    self.cells[col_letter][row].bind("<Control-v>", lambda event, master = self, col = col, row=row:
+                    evn.paste_data_to_cells(event, master, col, row))
                 except:
                     print("Cant control v")
 
