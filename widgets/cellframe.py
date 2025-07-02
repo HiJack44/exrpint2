@@ -48,7 +48,7 @@ class Cellframe(ctik.CTkScrollableFrame):
                 cl = cell.Cell(
                     self, row, col_letter, width=self.c_width, height=self.c_height
                 )
-                cl.grid(row=row+3, column=col, padx=1, pady=1, sticky='ew')
+                cl.grid(row=row+3, column=col, padx=0.5, pady=0.1, sticky='ew')
                 self.grid_columnconfigure(col, weight=1)
 
                 # Addition of the cell to the cells dictionary

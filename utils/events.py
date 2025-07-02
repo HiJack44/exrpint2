@@ -36,18 +36,21 @@ def custom_paste(event):
         print("Paste error:", e)
     return "break"
 
-def paste_to_dict(event):
-    widget = event.widget
-    data = widget.clipboard_get().strip().split("\t")
-    widget.insert('0.0', data)
-    print(data)
-
-    return "break"
+#Paste function to rows and cells
 def paste_data_to_cells(event, master, col, row):
     widget = event.widget
-    data = widget.clipboard_get().strip().split("\t")
-    for cell in data:
-        col_letter = auc[col]
-        master.cells[col_letter][row].insert('0.0', cell)
-        col += 1
+    data_grid = widget.clipboard_get().strip().split("\n")
+    for r_offset, line in enumerate(data_grid):
+        if "\t" in line:
+            cells = line.split("\t")
+        else:
+            cells = line.split(":")
+        for c_offset, cell_text in enumerate(cells):
+            try:
+                col_letter = auc[col + c_offset]
+                target_cell = master.cells[col_letter][row + r_offset]
+                target_cell.delete("0.0", "end")
+                target_cell.insert('0.0', cell_text)
+            except (KeyError, IndexError):
+                print(f"Mimo pole: {col_letter} {row + r_offset}")
     return "break"
