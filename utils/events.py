@@ -54,3 +54,15 @@ def paste_data_to_cells(event, master, col, row):
             except (KeyError, IndexError):
                 print(f"Mimo pole: {col_letter} {row + r_offset}")
     return "break"
+
+#Funkce, která bude volat další formátovací funkce (kontrola sloupců, načtení dat, redukce velikosti, zapsání do labelů)
+def format_handler(master):
+    checkboxes = master.checkboxes
+    checked_checkboxes = []
+    for checkbox, i in enumerate(checkboxes):
+        col_letter = auc[checkbox]
+        ischecked = checkboxes[col_letter].get()
+        if ischecked == 1:
+            checked_checkboxes.append(col_letter)
+    print(checked_checkboxes)
+    return "break"

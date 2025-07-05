@@ -1,5 +1,6 @@
 import customtkinter as ctik
 from widgets import cell, sticker, tab
+from utils import events as ev
 from utils import formatter as f
 
 
@@ -30,7 +31,7 @@ class App(ctik.CTk):
         self.format_button = ctik.CTkButton(
             self.tabview.cellfield1,
             text="Format",
-            command=lambda: f.pritn_all_cells(self.tabview),
+            command=lambda master = self.tabview.cellfield1: ev.format_handler(master)
         )
         self.format_button.grid(
             row=0, column=0, padx=1, pady=1, columnspan=10, sticky="w"

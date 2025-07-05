@@ -24,7 +24,7 @@ class Cellframe(ctik.CTkScrollableFrame):
 
         # dictionary that wraps the cells
         self.cells = {}
-        self.checkboxes = []
+        self.checkboxes = {}
 
         # cell generation loop
         for col in range(col_count):
@@ -32,9 +32,11 @@ class Cellframe(ctik.CTkScrollableFrame):
             # Renaming of the column number to letter.
             # Letter is used with row number to adress the cell
             col_letter = auc[col]
-            self.letter_label = ctik.CTkLabel(self, text=col_letter, fg_color='transparent')
-            self.letter_label.grid(row=1, column=col)
-            #self.col_checker =
+            self.letter_checkbox = ctik.CTkCheckBox(self, text=col_letter, checkbox_width=15, checkbox_height=15)
+            self.letter_checkbox.grid(row=1, column=col, sticky='w')
+            if col_letter not in self.checkboxes:
+                self.checkboxes[col_letter] = self.letter_checkbox
+
 
             # if to check if column already exists, if not: create it
             if col_letter not in self.cells:
@@ -48,7 +50,7 @@ class Cellframe(ctik.CTkScrollableFrame):
                 cl = cell.Cell(
                     self, row, col_letter, width=self.c_width, height=self.c_height
                 )
-                cl.grid(row=row+3, column=col, padx=0.5, pady=0.1, sticky='ew')
+                cl.grid(row=row+3, column=col, padx=1, pady=0.1, sticky='ew')
                 self.grid_columnconfigure(col, weight=1)
 
                 # Addition of the cell to the cells dictionary
