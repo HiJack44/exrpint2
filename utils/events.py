@@ -1,10 +1,11 @@
-#Key-bound events
+# Key-bound events
 import pyperclip as pc
 import clipboard
 from constants import auc
 
-#Focus the cell in the next column
-def next_cell(event,master,column, row):
+
+# Focus the cell in the next column
+def next_cell(event, master, column, row):
     try:
         master.cells[column][row].focus_set()
         print(master.cells[column][row])
@@ -12,7 +13,8 @@ def next_cell(event,master,column, row):
         print("Out of range")
     return "break"
 
-#Copy function bound to Ctrl+c keys
+
+# Copy function bound to Ctrl+c keys
 def custom_copy(event):
     try:
         widget = event.widget
@@ -25,18 +27,20 @@ def custom_copy(event):
         print("Copy error:", e)
     return "break"
 
-#Paste function bound to Ctrl+v keys
+
+# Paste function bound to Ctrl+v keys
 def custom_paste(event):
     try:
         widget = event.widget
         text = widget.clipboard_get()
         widget.insert("insert", text)
-        print("Pasted:",text)
+        print("Pasted:", text)
     except Exception as e:
         print("Paste error:", e)
     return "break"
 
-#Paste function to rows and cells
+
+# Paste function to rows and cells
 def paste_data_to_cells(event, master, col, row):
     widget = event.widget
     data_grid = widget.clipboard_get().strip().split("\n")
@@ -50,12 +54,13 @@ def paste_data_to_cells(event, master, col, row):
                 col_letter = auc[col + c_offset]
                 target_cell = master.cells[col_letter][row + r_offset]
                 target_cell.delete("0.0", "end")
-                target_cell.insert('0.0', cell_text)
+                target_cell.insert("0.0", cell_text)
             except (KeyError, IndexError):
                 print(f"Mimo pole: {col_letter} {row + r_offset}")
     return "break"
 
-#Funkce, která bude volat další formátovací funkce (kontrola sloupců, načtení dat, redukce velikosti, zapsání do labelů)
+
+# Funkce, která bude volat další formátovací funkce (kontrola sloupců, načtení dat, redukce velikosti, zapsání do labelů)
 def format_handler(master):
     checkboxes = master.checkboxes
     checked_checkboxes = []

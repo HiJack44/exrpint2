@@ -1,4 +1,4 @@
-#Constants for all the app
+# Constants for all the app
 
-#ascii uppercase for column labeling
+# ascii uppercase for column labeling
 from string import ascii_uppercase as auc

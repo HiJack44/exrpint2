@@ -31,7 +31,7 @@ class App(ctik.CTk):
         self.format_button = ctik.CTkButton(
             self.tabview.cellfield1,
             text="Format",
-            command=lambda master = self.tabview.cellfield1: ev.format_handler(master)
+            command=lambda master=self.tabview.cellfield1: ev.format_handler(master),
         )
         self.format_button.grid(
             row=0, column=0, padx=1, pady=1, columnspan=10, sticky="w"
@@ -43,15 +43,15 @@ class App(ctik.CTk):
             text="Vymazat",
             command=lambda master=self.tabview.cellfield1: f.clear_cells(master),
         )
-        self.erase_button_zak.grid(row=0, column=6, columnspan = 3, sticky="e")
+        self.erase_button_zak.grid(row=0, column=6, columnspan=3, sticky="e")
 
-        #Erase button reservations
+        # Erase button reservations
         self.erase_button_zak = ctik.CTkButton(
             self.tabview.reserv1,
             text="Vymazat",
             command=lambda master=self.tabview.reserv1: f.clear_cells(master),
         )
-        self.erase_button_zak.grid(row=0, column=1, sticky='e')
+        self.erase_button_zak.grid(row=0, column=1, sticky="e")
 
 
 app = App()
