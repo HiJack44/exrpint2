@@ -1,7 +1,7 @@
 # Key-bound events
-import pyperclip as pc
-import clipboard
+#import clipboard
 from constants import auc
+from utils import formatter as f
 
 
 # Focus the cell in the next column
@@ -70,4 +70,5 @@ def format_handler(master):
         if ischecked == 1:
             checked_checkboxes.append(col_letter)
     print(checked_checkboxes)
+    f.get_checked_cols(checked_checkboxes, master)
     return "break"

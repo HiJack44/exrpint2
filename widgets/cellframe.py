@@ -4,7 +4,7 @@ import customtkinter as ctik
 from widgets import cell
 from constants import auc
 from utils import events as evn
-import clipboard as clip
+import json
 
 
 # Cellframe class to spawn the cells

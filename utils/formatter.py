@@ -24,10 +24,16 @@ def clear_cells(master):
         print("Erase failed")
     return "break"
 
-
-def cells_to_label():
-    pass
-
-
-def get_checked_cols():
-    pass
+def get_checked_cols(checkedboxes, master):
+    cells = master.cells
+    cells_to_format = {}
+    for col in cells:
+        print(f"In all {col}")
+        if col in checkedboxes:
+            for cell, i in enumerate(cells[col]):
+                if col not in cells_to_format:
+                    cells_to_format[col] = []
+                cells_to_format[col].append(cells[col][cell].get('0.0', "end"))
+                #print(cells[col][cell].get('0.0', "end"))
+    print(cells_to_format)
+    #formattext(cells_to_format)

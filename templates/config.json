@@ -1,0 +1,10 @@
+{
+  "Zakaznici": {
+    "row_count": 6,
+    "column_count": 8
+  },
+  "Rezervace":{
+    "row_count": 10,
+    "column_count": 2
+}
+}

@@ -1,7 +1,8 @@
-# This defines the tabwiew, so we can switch between customers and reservations
+# This defines the tabview, so we can switch between customers and reservations
 
 import customtkinter as ctik
 from widgets import cellframe
+from config import config
 
 
 class Tab(ctik.CTkTabview):
@@ -18,8 +19,8 @@ class Tab(ctik.CTkTabview):
         # Placing the cellframe for reservation data
         self.reserv1 = cellframe.Cellframe(
             self.tab("Rezervace"),
-            row_count=10,
-            col_count=2,
+            row_count=config['Rezervace']['row_count'],
+            col_count=config['Rezervace']['column_count'],
             cw=150,
             ch=1,
             width=500,
@@ -30,8 +31,8 @@ class Tab(ctik.CTkTabview):
         # Placing the cellframe for customer data
         self.cellfield1 = cellframe.Cellframe(
             self.tab("Zákazníci"),
-            row_count=15,
-            col_count=8,
+            row_count=config['Zakaznici']['row_count'],
+            col_count=config['Zakaznici']['column_count'],
             cw=100,
             ch=1,
             width=900,
