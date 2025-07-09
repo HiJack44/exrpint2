@@ -1,9 +1,7 @@
 # this set of functions will format the text from cells and send them to the sticker labels
-from pickle import EMPTY_LIST
-
 import pyperclip as pc
 from constants import auc
-
+from config import config
 
 def pritn_all_cells(arg):
     # from main import app
@@ -43,9 +41,9 @@ def row_sorter(cells: list|dict):
     print(cells)
     rows = {}
     for i, col in enumerate(cells):
-        cell_text = cells[col][i]
-        print(f"i = {i}, col = {col}")
-        print(cell_text)
+        if config['Format']['brackets'] == 1:
+            print("Bracket formating acivated")
+            cells[col] = bracket_removal(cells[col])
         for j, item in enumerate(cells[col]):
             if j not in rows:
                 text_to_dict = item
@@ -55,3 +53,12 @@ def row_sorter(cells: list|dict):
                 rows[j] = text_to_dict
             #print(f"j = {j}, item = {item}, col = {col}, i = {i}\n text = {rows[j]}")
     print(rows)
+
+def bracket_removal(cells: list|dict):
+    for i, item in enumerate(cells):
+        print(item)
+        item = item.replace("(", "\n")
+        item = item.replace(")", "")
+        cells[i] = item
+        print(f"Brackets removed. New item: {item}")
+    return cells

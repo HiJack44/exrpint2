@@ -1,10 +1,13 @@
 {
   "Zakaznici": {
-    "row_count": 6,
-    "column_count": 8
+    "row_count": 16,
+    "column_count": 10
   },
   "Rezervace":{
     "row_count": 10,
     "column_count": 2
-}
+},
+  "Format": {
+    "brackets": 1
+  }
 }
