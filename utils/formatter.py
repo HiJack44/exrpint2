@@ -44,6 +44,7 @@ def row_sorter(cells: list|dict):
         if config['Format']['brackets'] == 1:
             print("Bracket formating acivated")
             cells[col] = bracket_removal(cells[col])
+        print(f"Cells after bracket removal:\n{cells}")
         for j, item in enumerate(cells[col]):
             if j not in rows:
                 text_to_dict = item
@@ -52,13 +53,18 @@ def row_sorter(cells: list|dict):
                 text_to_dict = rows[j] + item
                 rows[j] = text_to_dict
             #print(f"j = {j}, item = {item}, col = {col}, i = {i}\n text = {rows[j]}")
-    print(rows)
-
+    print(f"Rows after row sorter:\n{rows}")
+#This function removes brackets and returns list of rows
 def bracket_removal(cells: list|dict):
     for i, item in enumerate(cells):
         print(item)
         item = item.replace("(", "\n")
+        item = item.replace(" \n", "\n")
         item = item.replace(")", "")
         cells[i] = item
+        #cells[i] = item.replace("\n\n", "")
+        #cells[i] = item.replace("\n", "")
+        #cells[i] = cells[i].split("\n")
+        print("Delka textu" + str(len(item)))
         print(f"Brackets removed. New item: {item}")
     return cells
