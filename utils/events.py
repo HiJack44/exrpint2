@@ -61,7 +61,7 @@ def paste_data_to_cells(event, master, col, row):
 
 
 # Funkce, která bude volat další formátovací funkce (kontrola sloupců, načtení dat, redukce velikosti, zapsání do labelů)
-def format_handler(master):
+def format_handler(master, submaster):
     checkboxes = master.checkboxes
     checked_checkboxes = []
     for checkbox, i in enumerate(checkboxes):
@@ -70,5 +70,5 @@ def format_handler(master):
         if ischecked == 1:
             checked_checkboxes.append(col_letter)
     print(checked_checkboxes)
-    f.get_checked_cols(checked_checkboxes, master)
+    f.get_checked_cols(checked_checkboxes, master, submaster)
     return "break"

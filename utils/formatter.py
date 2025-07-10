@@ -1,7 +1,10 @@
 # this set of functions will format the text from cells and send them to the sticker labels
 import pyperclip as pc
+
 from constants import auc
 from config import config
+#from widgets import stickerframe as sf
+from widgets import sticker as s
 
 def pritn_all_cells(arg):
     # from main import app
@@ -25,7 +28,7 @@ def clear_cells(master):
     return "break"
 
 #This method takes data from columns that are checked and puts them into dict of lists according to column
-def get_checked_cols(checkedboxes, master):
+def get_checked_cols(checkedboxes, master, submaster):
     cells = master.cells
     cells_to_format = {}
     for col in cells:
@@ -35,9 +38,9 @@ def get_checked_cols(checkedboxes, master):
                 if col not in cells_to_format:
                     cells_to_format[col] = []
                 cells_to_format[col].append(cells[col][cell].get('0.0', "end"))
-    row_sorter(cells_to_format)
+    row_sorter(cells_to_format, submaster)
 #Let's use this function in the end, when everything is in rows dictionary rather than cols
-def row_sorter(cells: list|dict):
+def row_sorter(cells: list|dict, submaster):
     print(cells)
     rows = {}
     for i, col in enumerate(cells):
@@ -53,6 +56,8 @@ def row_sorter(cells: list|dict):
                 text_to_dict = rows[j] + item
                 rows[j] = text_to_dict
             #print(f"j = {j}, item = {item}, col = {col}, i = {i}\n text = {rows[j]}")
+    #app.sticker_dropper(rows)
+    label_filler(submaster, rows)
     print(f"Rows after row sorter:\n{rows}")
 #This function removes brackets and returns list of rows
 def bracket_removal(cells: list|dict):
@@ -68,3 +73,10 @@ def bracket_removal(cells: list|dict):
         print("Delka textu" + str(len(item)))
         print(f"Brackets removed. New item: {item}")
     return cells
+
+#this method will generate labels and fill them with rows
+def label_filler(master, rows: list|dict):
+    sticker = s.Sticker(master=master, text="Heureka")
+    sticker.grid(row=2,column=2)
+    for i, row in enumerate(rows):
+        pass
