@@ -76,7 +76,11 @@ def bracket_removal(cells: list|dict):
 
 #this method will generate labels and fill them with rows
 def label_filler(master, rows: list|dict):
-    sticker = s.Sticker(master=master, text="Heureka")
-    sticker.grid(row=2,column=2)
+
     for i, row in enumerate(rows):
-        pass
+        text = rows[i]
+        # This IF removes the last return in a string
+        if text[-1] == "\n":
+            text = text[:-1]
+        sticker = s.Sticker(master=master, text=text, justify='left')
+        sticker.grid(row=i, column=2, pady=1)

@@ -1,5 +1,5 @@
 import customtkinter as ctik
-from widgets import cell, sticker, tab
+from widgets import cell, stickerframe, tab
 from utils import events as ev
 from utils import formatter as f
 
@@ -10,7 +10,7 @@ class App(ctik.CTk):
         super().__init__()
 
         # Defining the window
-        self.geometry("1200x600")
+        self.geometry("1300x700")
         self.title("Exprint 2")
         try:
             ctik.set_default_color_theme("templates/theme_dark.json")
@@ -23,15 +23,16 @@ class App(ctik.CTk):
         self.tabview = tab.Tab(self)
         self.tabview.grid(row=0, column=0, sticky="nsw")
 
-        self.sticker1 = sticker.Sticker(self)
-        self.sticker1.grid(row=0, column=1)
+        # Placing stickerframe which will be displaying formated stickers
+        self.stickerframe = stickerframe.Stickerframe(self, width=280, height=600)
+        self.stickerframe.grid(row=0, column=1, sticky='sew')
 
         # Placing buttons
         # Format Button
         self.format_button = ctik.CTkButton(
             self.tabview.cellfield1,
             text="Format",
-            command=lambda master=self.tabview.cellfield1, submaster=self: ev.format_handler(master, submaster),
+            command=lambda master=self.tabview.cellfield1, submaster=self.stickerframe: ev.format_handler(master, submaster),
         )
         self.format_button.grid(
             row=0, column=0, padx=1, pady=1, columnspan=10, sticky="w"

@@ -23,8 +23,8 @@ class Tab(ctik.CTkTabview):
             col_count=config['Rezervace']['column_count'],
             cw=150,
             ch=1,
-            width=500,
-            height=400,
+            width=900,
+            height=600,
         )
         self.reserv1.grid(row=0, column=0, sticky="nsew", columnspan=3)
 
