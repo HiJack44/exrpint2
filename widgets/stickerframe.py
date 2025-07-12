@@ -1,4 +1,4 @@
-#This will be frame for stickers. It will display formated stickers
+# This will be frame for stickers. It will display formated stickers
 
 import customtkinter as ctik
 

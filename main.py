@@ -25,14 +25,16 @@ class App(ctik.CTk):
 
         # Placing stickerframe which will be displaying formated stickers
         self.stickerframe = stickerframe.Stickerframe(self, width=280, height=600)
-        self.stickerframe.grid(row=0, column=1, sticky='sew')
+        self.stickerframe.grid(row=0, column=1, sticky="sew")
 
         # Placing buttons
         # Format Button
         self.format_button = ctik.CTkButton(
             self.tabview.cellfield1,
             text="Format",
-            command=lambda master=self.tabview.cellfield1, submaster=self.stickerframe: ev.format_handler(master, submaster),
+            command=lambda master=self.tabview.cellfield1, submaster=self.stickerframe: ev.format_handler(
+                master, submaster
+            ),
         )
         self.format_button.grid(
             row=0, column=0, padx=1, pady=1, columnspan=10, sticky="w"
@@ -53,8 +55,6 @@ class App(ctik.CTk):
             command=lambda master=self.tabview.reserv1: f.clear_cells(master),
         )
         self.erase_button_zak.grid(row=0, column=1, sticky="e")
-
-
 
 
 app = App()

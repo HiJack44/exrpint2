@@ -3,8 +3,10 @@ import pyperclip as pc
 
 from constants import auc
 from config import config
-#from widgets import stickerframe as sf
+
+# from widgets import stickerframe as sf
 from widgets import sticker as s
+
 
 def pritn_all_cells(arg):
     # from main import app
@@ -27,7 +29,8 @@ def clear_cells(master):
         print("Erase failed")
     return "break"
 
-#This method takes data from columns that are checked and puts them into dict of lists according to column
+
+# This method takes data from columns that are checked and puts them into dict of lists according to column
 def get_checked_cols(checkedboxes, master, submaster):
     cells = master.cells
     cells_to_format = {}
@@ -37,14 +40,16 @@ def get_checked_cols(checkedboxes, master, submaster):
             for cell, i in enumerate(cells[col]):
                 if col not in cells_to_format:
                     cells_to_format[col] = []
-                cells_to_format[col].append(cells[col][cell].get('0.0', "end"))
+                cells_to_format[col].append(cells[col][cell].get("0.0", "end"))
     row_sorter(cells_to_format, submaster)
-#Let's use this function in the end, when everything is in rows dictionary rather than cols
-def row_sorter(cells: list|dict, submaster):
+
+
+# Let's use this function in the end, when everything is in rows dictionary rather than cols
+def row_sorter(cells: list | dict, submaster):
     print(cells)
     rows = {}
     for i, col in enumerate(cells):
-        if config['Format']['brackets'] == 1:
+        if config["Format"]["brackets"] == 1:
             print("Bracket formating acivated")
             cells[col] = bracket_removal(cells[col])
         print(f"Cells after bracket removal:\n{cells}")
@@ -55,32 +60,51 @@ def row_sorter(cells: list|dict, submaster):
             else:
                 text_to_dict = rows[j] + item
                 rows[j] = text_to_dict
-            #print(f"j = {j}, item = {item}, col = {col}, i = {i}\n text = {rows[j]}")
-    #app.sticker_dropper(rows)
+            # print(f"j = {j}, item = {item}, col = {col}, i = {i}\n text = {rows[j]}")
+    # app.sticker_dropper(rows)
+    # label_killer(submaster)
     label_filler(submaster, rows)
     print(f"Rows after row sorter:\n{rows}")
-#This function removes brackets and returns list of rows
-def bracket_removal(cells: list|dict):
+
+
+# This function removes brackets and returns list of rows
+def bracket_removal(cells: list | dict):
     for i, item in enumerate(cells):
         print(item)
         item = item.replace("(", "\n")
         item = item.replace(" \n", "\n")
         item = item.replace(")", "")
         cells[i] = item
-        #cells[i] = item.replace("\n\n", "")
-        #cells[i] = item.replace("\n", "")
-        #cells[i] = cells[i].split("\n")
+        # cells[i] = item.replace("\n\n", "")
+        # cells[i] = item.replace("\n", "")
+        # cells[i] = cells[i].split("\n")
         print("Delka textu" + str(len(item)))
         print(f"Brackets removed. New item: {item}")
     return cells
 
-#this method will generate labels and fill them with rows
-def label_filler(master, rows: list|dict):
 
+# this method will generate labels and fill them with rows
+def label_filler(master, rows: list | dict):
+    label_killer(master)
+    master.stickers = {}
     for i, row in enumerate(rows):
         text = rows[i]
         # This IF removes the last return in a string
         if text[-1] == "\n":
             text = text[:-1]
-        sticker = s.Sticker(master=master, text=text, justify='left')
+        sticker = s.Sticker(master=master, text=text, justify="left")
         sticker.grid(row=i, column=2, pady=1)
+        master.stickers[i] = sticker
+        print(f"Sticker{i} = {master.stickers[i]}")
+
+
+# This will erase existing stickers from stickerframe
+def label_killer(master):
+    try:
+        if master.stickers:
+            for i, label in enumerate(master.stickers):
+                master.stickers[i].destroy()
+        else:
+            print(f"No stickers in {master}")
+    except AttributeError:
+        print(f"AttributeError - {master} is empty or has no stickers")

@@ -19,8 +19,8 @@ class Tab(ctik.CTkTabview):
         # Placing the cellframe for reservation data
         self.reserv1 = cellframe.Cellframe(
             self.tab("Rezervace"),
-            row_count=config['Rezervace']['row_count'],
-            col_count=config['Rezervace']['column_count'],
+            row_count=config["Rezervace"]["row_count"],
+            col_count=config["Rezervace"]["column_count"],
             cw=150,
             ch=1,
             width=900,
@@ -31,8 +31,8 @@ class Tab(ctik.CTkTabview):
         # Placing the cellframe for customer data
         self.cellfield1 = cellframe.Cellframe(
             self.tab("Zákazníci"),
-            row_count=config['Zakaznici']['row_count'],
-            col_count=config['Zakaznici']['column_count'],
+            row_count=config["Zakaznici"]["row_count"],
+            col_count=config["Zakaznici"]["column_count"],
             cw=100,
             ch=1,
             width=900,

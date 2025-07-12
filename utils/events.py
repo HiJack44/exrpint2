@@ -1,5 +1,5 @@
 # Key-bound events
-#import clipboard
+
 from constants import auc
 from utils import formatter as f
 
