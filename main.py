@@ -1,5 +1,5 @@
 import customtkinter as ctik
-from widgets import cell, stickerframe, tab
+from widgets import stickerframe, tab
 from utils import events as ev
 from utils import formatter as f
 

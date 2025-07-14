@@ -8,6 +8,12 @@
     "column_count": 2
 },
   "Format": {
-    "brackets": 1
+    "brackets": 1,
+    "pieces": 1,
+    "date": 1,
+    "seller": 1
+  },
+  "Sticker": {
+    "width": 200
   }
 }

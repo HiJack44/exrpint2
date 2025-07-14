@@ -1,5 +1,4 @@
 # Key-bound events
-
 from constants import auc
 from utils import formatter as f
 
@@ -70,5 +69,5 @@ def format_handler(master, submaster):
         if ischecked == 1:
             checked_checkboxes.append(col_letter)
     print(checked_checkboxes)
-    f.get_checked_cols(checked_checkboxes, master, submaster)
+    f.format_master(checked_checkboxes, master, submaster)
     return "break"

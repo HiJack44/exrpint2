@@ -1,20 +1,8 @@
 # this set of functions will format the text from cells and send them to the sticker labels
-import pyperclip as pc
-
 from constants import auc
 from config import config
-
-# from widgets import stickerframe as sf
 from widgets import sticker as s
-
-
-def pritn_all_cells(arg):
-    # from main import app
-    text = arg.cellfield1.cells["A"][1].get_text()
-    print(text)
-
-    return "break"
-
+import datetime
 
 # Function to clear all the cells
 def clear_cells(master):
@@ -29,9 +17,18 @@ def clear_cells(master):
         print("Erase failed")
     return "break"
 
+#This function commands all other formating functions
+def format_master(checkedboxes, master, submaster):
+    cells_to_format = get_checked_cols(checkedboxes, master)
+    cells_to_format = bracket_removal(cells_to_format)
+    rows = row_sorter(cells_to_format)
+    rows = line_splitter(rows)
+    rows = line_limitter(rows)
+    label_killer(submaster)
+    label_filler(submaster, rows)
 
 # This method takes data from columns that are checked and puts them into dict of lists according to column
-def get_checked_cols(checkedboxes, master, submaster):
+def get_checked_cols(checkedboxes, master):
     cells = master.cells
     cells_to_format = {}
     for col in cells:
@@ -41,18 +38,16 @@ def get_checked_cols(checkedboxes, master, submaster):
                 if col not in cells_to_format:
                     cells_to_format[col] = []
                 cells_to_format[col].append(cells[col][cell].get("0.0", "end"))
-    row_sorter(cells_to_format, submaster)
+    print(f"Cells to format from get_checke_cols:\n {cells_to_format}")
+
+    return cells_to_format
 
 
 # Let's use this function in the end, when everything is in rows dictionary rather than cols
-def row_sorter(cells: list | dict, submaster):
-    print(cells)
+def row_sorter(cells: list | dict):
+    #print(cells)
     rows = {}
     for i, col in enumerate(cells):
-        if config["Format"]["brackets"] == 1:
-            print("Bracket formating acivated")
-            cells[col] = bracket_removal(cells[col])
-        print(f"Cells after bracket removal:\n{cells}")
         for j, item in enumerate(cells[col]):
             if j not in rows:
                 text_to_dict = item
@@ -61,37 +56,33 @@ def row_sorter(cells: list | dict, submaster):
                 text_to_dict = rows[j] + item
                 rows[j] = text_to_dict
             # print(f"j = {j}, item = {item}, col = {col}, i = {i}\n text = {rows[j]}")
-    # app.sticker_dropper(rows)
-    # label_killer(submaster)
-    label_filler(submaster, rows)
     print(f"Rows after row sorter:\n{rows}")
+    return rows
 
 
 # This function removes brackets and returns list of rows
 def bracket_removal(cells: list | dict):
-    for i, item in enumerate(cells):
-        print(item)
-        item = item.replace("(", "\n")
-        item = item.replace(" \n", "\n")
-        item = item.replace(")", "")
-        cells[i] = item
-        # cells[i] = item.replace("\n\n", "")
-        # cells[i] = item.replace("\n", "")
-        # cells[i] = cells[i].split("\n")
-        print("Delka textu" + str(len(item)))
-        print(f"Brackets removed. New item: {item}")
+    if config["Format"]["brackets"] == 1:
+        print("Bracket formating acivated")
+        for col in cells:
+            for i, item in enumerate(cells[col]):
+                print(item)
+                item = item.replace("(", "\n")
+                item = item.replace(" \n", "\n")
+                item = item.replace(")", "")
+                cells[col][i] = item
     return cells
 
 
 # this method will generate labels and fill them with rows
 def label_filler(master, rows: list | dict):
-    label_killer(master)
     master.stickers = {}
     for i, row in enumerate(rows):
         text = rows[i]
         # This IF removes the last return in a string
         if text[-1] == "\n":
             text = text[:-1]
+        #text = f"{text[:10]}..\n"
         sticker = s.Sticker(master=master, text=text, justify="left")
         sticker.grid(row=i, column=2, pady=1)
         master.stickers[i] = sticker
@@ -108,3 +99,28 @@ def label_killer(master):
             print(f"No stickers in {master}")
     except AttributeError:
         print(f"AttributeError - {master} is empty or has no stickers")
+
+#This method will put rows into lists
+def line_splitter(rows):
+    for i in rows:
+        rows[i] = rows[i][:-1]
+        rows[i] = rows[i].split("\n")
+        print(f"Row {i} in line_spliter:{rows[i]}")
+    print(f"Rows in line_splitter: {rows}")
+    return rows
+
+#This function limits the lenght of an item
+def line_limitter(rows):
+    for row in rows:
+        for i, item in enumerate(rows[row]):
+            print(f"Item in line_limitter: {item}")
+            item = item[:10]
+            rows[row][i] = item
+            print(f"New item: {item}")
+    return rows
+
+def add_date(item):
+    date = datetime.datetime.now()
+    date = date.strftime("%d-%m")
+    item = f"{item} | {date}"
+    return item
