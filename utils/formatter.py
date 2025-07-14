@@ -23,8 +23,9 @@ def format_master(checkedboxes, master, submaster):
     cells_to_format = bracket_removal(cells_to_format)
     rows = row_sorter(cells_to_format)
     rows = line_splitter(rows)
-    rows = line_limitter(rows)
+    rows = line_limitter(rows, config['Format']['max_str_len'])
     rows = add_date(rows)
+    #rows = line_sorter(rows, config['Format']['line_count'])
     label_killer(submaster)
     label_filler(submaster, rows)
 
@@ -110,11 +111,11 @@ def line_splitter(rows):
     return rows
 
 #This function limits the lenght of an item
-def line_limitter(rows):
+def line_limitter(rows, lim):
     for row in rows:
         for i, item in enumerate(rows[row]):
             print(f"Item in line_limitter: {item}")
-            item = item[:10]
+            item = (item[:lim]  + ".." if len(item) > lim else item)
             rows[row][i] = item
             print(f"New item: {item}")
     return rows
@@ -129,3 +130,7 @@ def add_date(rows):
             item = f"{item} | {date}"
             rows[row][0] = item
     return rows
+
+#This function will sort rows into lines for label_printer
+def liner_sorter(rows):
+    pass
