@@ -24,6 +24,7 @@ def format_master(checkedboxes, master, submaster):
     rows = row_sorter(cells_to_format)
     rows = line_splitter(rows)
     rows = line_limitter(rows)
+    rows = add_date(rows)
     label_killer(submaster)
     label_filler(submaster, rows)
 
@@ -86,7 +87,6 @@ def label_filler(master, rows: list | dict):
         sticker = s.Sticker(master=master, text=text, justify="left")
         sticker.grid(row=i, column=2, pady=1)
         master.stickers[i] = sticker
-        print(f"Sticker{i} = {master.stickers[i]}")
 
 
 # This will erase existing stickers from stickerframe
@@ -119,8 +119,13 @@ def line_limitter(rows):
             print(f"New item: {item}")
     return rows
 
-def add_date(item):
-    date = datetime.datetime.now()
-    date = date.strftime("%d-%m")
-    item = f"{item} | {date}"
-    return item
+#This just adds current date to the item
+def add_date(rows):
+    if config['Format']['date'] == 1:
+        for row in rows:
+            item = rows[row][0]
+            date = datetime.datetime.now()
+            date = date.strftime("%d-%m")
+            item = f"{item} | {date}"
+            rows[row][0] = item
+    return rows
