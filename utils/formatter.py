@@ -4,6 +4,7 @@ from config import config
 from widgets import sticker as s
 import datetime
 
+
 # Function to clear all the cells
 def clear_cells(master):
     try:
@@ -17,17 +18,21 @@ def clear_cells(master):
         print("Erase failed")
     return "break"
 
-#This function commands all other formating functions
+
+# This function commands all other formating functions
 def format_master(checkedboxes, master, submaster):
     cells_to_format = get_checked_cols(checkedboxes, master)
     cells_to_format = bracket_removal(cells_to_format)
+    cells_to_format = piece_sign_adder(cells_to_format)
     rows = row_sorter(cells_to_format)
     rows = line_splitter(rows)
-    rows = line_limitter(rows, config['Format']['max_str_len'])
+    rows = line_limitter(rows, config["Format"]["max_str_len"])
     rows = add_date(rows)
-    #rows = line_sorter(rows, config['Format']['line_count'])
+    # rows = line_sorter(rows, config['Format']['line_count'])
+    # print(rows)
     label_killer(submaster)
     label_filler(submaster, rows)
+
 
 # This method takes data from columns that are checked and puts them into dict of lists according to column
 def get_checked_cols(checkedboxes, master):
@@ -47,7 +52,7 @@ def get_checked_cols(checkedboxes, master):
 
 # Let's use this function in the end, when everything is in rows dictionary rather than cols
 def row_sorter(cells: list | dict):
-    #print(cells)
+    # print(cells)
     rows = {}
     for i, col in enumerate(cells):
         for j, item in enumerate(cells[col]):
@@ -84,7 +89,7 @@ def label_filler(master, rows: list | dict):
         # This IF removes the last return in a string
         if text[-1] == "\n":
             text = text[:-1]
-        #text = f"{text[:10]}..\n"
+        # text = f"{text[:10]}..\n"
         sticker = s.Sticker(master=master, text=text, justify="left")
         sticker.grid(row=i, column=2, pady=1)
         master.stickers[i] = sticker
@@ -101,7 +106,8 @@ def label_killer(master):
     except AttributeError:
         print(f"AttributeError - {master} is empty or has no stickers")
 
-#This method will put rows into lists
+
+# This method will put rows into lists
 def line_splitter(rows):
     for i in rows:
         rows[i] = rows[i][:-1]
@@ -110,19 +116,21 @@ def line_splitter(rows):
     print(f"Rows in line_splitter: {rows}")
     return rows
 
-#This function limits the lenght of an item
+
+# This function limits the lenght of an item
 def line_limitter(rows, lim):
     for row in rows:
         for i, item in enumerate(rows[row]):
             print(f"Item in line_limitter: {item}")
-            item = (item[:lim]  + ".." if len(item) > lim else item)
+            item = item[:lim] + ".." if len(item) > lim else item
             rows[row][i] = item
             print(f"New item: {item}")
     return rows
 
-#This just adds current date to the item
+
+# This just adds current date to the item
 def add_date(rows):
-    if config['Format']['date'] == 1:
+    if config["Format"]["date"] == 1:
         for row in rows:
             item = rows[row][0]
             date = datetime.datetime.now()
@@ -131,6 +139,17 @@ def add_date(rows):
             rows[row][0] = item
     return rows
 
-#This function will sort rows into lines for label_printer
+# This function will sort rows into lines for label_printer
 def liner_sorter(rows):
     pass
+
+#This function adds piece sign to a specific column
+def piece_sign_adder(cells: list | dict):
+    if config["Format"]["pieces"] == 1:
+        print("Piece sign activated")
+        for col in cells:
+            for i, item in enumerate(cells[col]):
+                if col == config["Format"]["pieces_col"]:
+                    item = "ks: " + item
+                    cells[col][i] = item
+    return cells

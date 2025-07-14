@@ -10,6 +10,7 @@
   "Format": {
     "brackets": 1,
     "pieces": 1,
+    "pieces_col": "F",
     "date": 1,
     "seller": 1,
     "max_str_len": 12,
