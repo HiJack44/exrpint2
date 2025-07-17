@@ -6,3 +6,5 @@ import customtkinter as ctik
 class Stickerframe(ctik.CTkScrollableFrame):
     def __init__(self, master, *args, **kwargs):
         super().__init__(master, *args, **kwargs)
+
+        self.grid_columnconfigure(1, weight=1)

@@ -22,20 +22,26 @@ def clear_cells(master):
 # This function commands all other formating functions
 def format_master(checkedboxes, master, submaster):
     cells_to_format = get_checked_cols(checkedboxes, master)
-    cells_to_format = bracket_removal(cells_to_format)
     cells_to_format = piece_sign_adder(cells_to_format)
+    cells_to_format = money_sign_adder(cells_to_format)
+    cells_to_format = bracket_removal(cells_to_format)
     rows = row_sorter(cells_to_format)
     rows = line_splitter(rows)
     rows = line_limitter(rows, config["Format"]["max_str_len"])
     rows = add_date(rows)
-    # rows = line_sorter(rows, config['Format']['line_count'])
+    rows = line_sorter(rows, config['Format']['line_count'])
     # print(rows)
     label_killer(submaster)
     label_filler(submaster, rows)
+    for sticker in submaster.stickers:
+        print(submaster.stickers[sticker].get_label_text())
 
 
 # This method takes data from columns that are checked and puts them into dict of lists according to column
 def get_checked_cols(checkedboxes, master):
+    if len(checkedboxes) > config['Format']['line_count']:
+
+        raise IndexError
     cells = master.cells
     cells_to_format = {}
     for col in cells:
@@ -70,10 +76,8 @@ def row_sorter(cells: list | dict):
 # This function removes brackets and returns list of rows
 def bracket_removal(cells: list | dict):
     if config["Format"]["brackets"] == 1:
-        print("Bracket formating acivated")
         for col in cells:
             for i, item in enumerate(cells[col]):
-                print(item)
                 item = item.replace("(", "\n")
                 item = item.replace(" \n", "\n")
                 item = item.replace(")", "")
@@ -91,7 +95,7 @@ def label_filler(master, rows: list | dict):
             text = text[:-1]
         # text = f"{text[:10]}..\n"
         sticker = s.Sticker(master=master, text=text, justify="left")
-        sticker.grid(row=i, column=2, pady=1)
+        sticker.grid(row=i, column=1, pady=1)
         master.stickers[i] = sticker
 
 
@@ -109,10 +113,13 @@ def label_killer(master):
 
 # This method will put rows into lists
 def line_splitter(rows):
-    for i in rows:
-        rows[i] = rows[i][:-1]
-        rows[i] = rows[i].split("\n")
-        print(f"Row {i} in line_spliter:{rows[i]}")
+    for i in list(rows):
+        if "\n\n\n" in rows[i]:
+            del rows[i]
+        else:
+            rows[i] = rows[i][:-1]
+            rows[i] = rows[i].split("\n")
+            print(f"Row {i} in line_spliter:{rows[i]}")
     print(f"Rows in line_splitter: {rows}")
     return rows
 
@@ -140,8 +147,23 @@ def add_date(rows):
     return rows
 
 # This function will sort rows into lines for label_printer
-def liner_sorter(rows):
-    pass
+def line_sorter(rows, lim):
+    stickers_content = {}
+    for i, row in enumerate(rows):
+        if i not in stickers_content:
+            stickers_content[i] = ""
+        for j, item in enumerate(rows[i]):
+            match j:
+                case 0:
+                    stickers_content[i] = item
+                case 1 | 2 | 3 | 4:
+                    stickers_content[i] = stickers_content[i] + "\n" + item
+                case 5:
+                    stickers_content[i] = stickers_content[i] + item
+                case _:
+                    print("Too many lines")
+    print(stickers_content)
+    return stickers_content
 
 #This function adds piece sign to a specific column
 def piece_sign_adder(cells: list | dict):
@@ -150,6 +172,17 @@ def piece_sign_adder(cells: list | dict):
         for col in cells:
             for i, item in enumerate(cells[col]):
                 if col == config["Format"]["pieces_col"]:
-                    item = "ks: " + item
+                    item = " | ks: " + item
+                    cells[col][i] = item
+    return cells
+
+#This function adds currency sign to a specific column
+def money_sign_adder(cells: list | dict):
+    if config["Format"]["money_sign"] == 1:
+        print("Currency sign activated")
+        for col in cells:
+            for i, item in enumerate(cells[col]):
+                if col == config["Format"]["money_sign_col"]:
+                    item = config["Format"]["czk"] + item
                     cells[col][i] = item
     return cells

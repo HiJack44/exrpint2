@@ -14,7 +14,11 @@
     "date": 1,
     "seller": 1,
     "max_str_len": 12,
-    "line_count": 5
+    "line_count": 5,
+    "money_sign": 1,
+    "money_sign_col": "E",
+    "czk": "CZK",
+    "eur:": "€"
   },
   "Sticker": {
     "width": 200

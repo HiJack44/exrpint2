@@ -10,7 +10,8 @@ class App(ctik.CTk):
         super().__init__()
 
         # Defining the window
-        self.geometry("1300x700")
+        self.geometry("1250x700")
+        self.minsize(1250, 700)
         self.title("Exprint 2")
         try:
             ctik.set_default_color_theme("templates/theme_dark.json")
@@ -21,11 +22,11 @@ class App(ctik.CTk):
 
         # Placing the tabview with cellframes
         self.tabview = tab.Tab(self)
-        self.tabview.grid(row=0, column=0, sticky="nsw")
+        self.tabview.grid(row=0, column=0,padx=(5,0), sticky="nsw")
 
         # Placing stickerframe which will be displaying formated stickers
         self.stickerframe = stickerframe.Stickerframe(self, width=280, height=600)
-        self.stickerframe.grid(row=0, column=1, sticky="sew")
+        self.stickerframe.grid(row=0, column=1, padx=5, pady=5, sticky="sew")
 
         # Placing buttons
         # Format Button
