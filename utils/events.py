@@ -46,6 +46,8 @@ def paste_data_to_cells(event, master, col, row):
     for r_offset, line in enumerate(data_grid):
         if "\t" in line:
             cells = line.split("\t")
+        elif "produkt" in line:
+            cells = line.split(" ", 1)
         else:
             cells = line.split(":")
         for c_offset, cell_text in enumerate(cells):

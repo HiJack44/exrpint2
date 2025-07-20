@@ -2,6 +2,7 @@ import customtkinter as ctik
 from widgets import stickerframe, tab
 from utils import events as ev
 from utils import formatter as f
+from utils import print as p
 
 
 # Main function of the program
@@ -47,7 +48,7 @@ class App(ctik.CTk):
             text="Vymazat",
             command=lambda master=self.tabview.cellfield1: f.clear_cells(master),
         )
-        self.erase_button_zak.grid(row=0, column=6, columnspan=3, sticky="e")
+        self.erase_button_zak.grid(row=0, column=7, columnspan=3, sticky="w")
 
         # Erase button reservations
         self.erase_button_zak = ctik.CTkButton(
@@ -56,6 +57,12 @@ class App(ctik.CTk):
             command=lambda master=self.tabview.reserv1: f.clear_cells(master),
         )
         self.erase_button_zak.grid(row=0, column=1, sticky="e")
+
+        #Placing button to convert stickers to txt
+        self.res_to_txt = ctik.CTkButton(self.tabview.cellfield1,
+                                         text="Do TXT", command=lambda submaster=self.stickerframe: p.stickers_to_txt(submaster)
+                                         )
+        self.res_to_txt.grid(row=0, column=2, padx=5, pady=5, columnspan=3, sticky='w')
 
 
 app = App()

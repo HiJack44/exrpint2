@@ -13,8 +13,8 @@ class Cellframe(ctik.CTkScrollableFrame):
         super().__init__(master, *args, **kwargs)
 
         # Grid configuration
-        # self.grid_rowconfigure((0,1), weight=1)
-        # self.grid_columnconfigure((0,7), weight=1)
+        self.grid_rowconfigure((0,1), weight=1)
+        self.grid_columnconfigure((0,1,7), weight=1)
         # Amount of rows and columns
         self.row_count = row_count
         self.col_count = col_count

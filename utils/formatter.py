@@ -33,8 +33,7 @@ def format_master(checkedboxes, master, submaster):
     # print(rows)
     label_killer(submaster)
     label_filler(submaster, rows)
-    for sticker in submaster.stickers:
-        print(submaster.stickers[sticker].get_label_text())
+
 
 
 # This method takes data from columns that are checked and puts them into dict of lists according to column
@@ -78,9 +77,9 @@ def bracket_removal(cells: list | dict):
     if config["Format"]["brackets"] == 1:
         for col in cells:
             for i, item in enumerate(cells[col]):
-                item = item.replace("(", "\n")
+                item = item.replace("(", "\n", 1)
                 item = item.replace(" \n", "\n")
-                item = item.replace(")", "")
+                item = item.replace(")", "", -1)
                 cells[col][i] = item
     return cells
 
@@ -91,12 +90,14 @@ def label_filler(master, rows: list | dict):
     for i, row in enumerate(rows):
         text = rows[i]
         # This IF removes the last return in a string
-        if text[-1] == "\n":
-            text = text[:-1]
-        # text = f"{text[:10]}..\n"
-        sticker = s.Sticker(master=master, text=text, justify="left")
-        sticker.grid(row=i, column=1, pady=1)
-        master.stickers[i] = sticker
+        try:
+            if text[-1] == "\n":
+                text = text[:-1]
+            sticker = s.Sticker(master=master, text=text, justify="left")
+            sticker.grid(row=i, column=1, pady=1)
+            master.stickers[i] = sticker
+        except IndexError as e:
+            print(f"Index error, asi nic inside: {e}")
 
 
 # This will erase existing stickers from stickerframe
@@ -152,16 +153,19 @@ def line_sorter(rows, lim):
     for i, row in enumerate(rows):
         if i not in stickers_content:
             stickers_content[i] = ""
-        for j, item in enumerate(rows[i]):
-            match j:
-                case 0:
-                    stickers_content[i] = item
-                case 1 | 2 | 3 | 4:
-                    stickers_content[i] = stickers_content[i] + "\n" + item
-                case 5:
-                    stickers_content[i] = stickers_content[i] + item
-                case _:
-                    print("Too many lines")
+        try:
+            for j, item in enumerate(rows[i]):
+                match j:
+                    case 0:
+                        stickers_content[i] = item
+                    case 1 | 2 | 3 | 4:
+                        stickers_content[i] = stickers_content[i] + "\n" + item
+                    case 5:
+                        stickers_content[i] = stickers_content[i] + item
+                    case _:
+                        print("Too many lines")
+        except KeyError as e:
+            print(f"Key error {e}")
     print(stickers_content)
     return stickers_content
 
