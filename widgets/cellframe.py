@@ -5,7 +5,7 @@ from widgets import cell
 from constants import auc
 from utils import events as evn
 import json
-
+from config import config
 
 # Cellframe class to spawn the cells
 class Cellframe(ctik.CTkScrollableFrame):
@@ -33,12 +33,15 @@ class Cellframe(ctik.CTkScrollableFrame):
             # Renaming of the column number to letter.
             # Letter is used with row number to adress the cell
             col_letter = auc[col]
+
             self.letter_checkbox = ctik.CTkCheckBox(
                 self, text=col_letter, checkbox_width=15, checkbox_height=15
             )
             self.letter_checkbox.grid(row=1, column=col, sticky="w")
             if col_letter not in self.checkboxes:
                 self.checkboxes[col_letter] = self.letter_checkbox
+            if col_letter in config['Zakaznici']['checked_cols']:
+                self.letter_checkbox.select()
 
             # if to check if column already exists, if not: create it
             if col_letter not in self.cells:

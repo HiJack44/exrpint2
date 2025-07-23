@@ -1,7 +1,8 @@
 {
   "Zakaznici": {
     "row_count": 16,
-    "column_count": 10
+    "column_count": 10,
+    "checked_cols": ["B", "C", "E", "G", "H"]
   },
   "Rezervace":{
     "row_count": 10,
