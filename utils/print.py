@@ -1,7 +1,7 @@
 # this will be the print function
 import os, subprocess, platform
 
-#This function will generate txt file with formated text for stickers
+#This function will prepare data from stickers and call another function that creates txt
 def stickers_to_txt(submaster):
     stickers_to_print = ""
     for sticker in submaster.stickers:
@@ -12,6 +12,7 @@ def stickers_to_txt(submaster):
     print(f"Stickers to print from print.py: \n{stickers_to_print}")
     create_txt(stickers_to_print)
 
+#This function creates txt file from the sticker_to_txt input
 def create_txt(text_to_file):
     file_for_text = "print_list.txt"
     if os.path.exists(file_for_text):

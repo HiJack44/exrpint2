@@ -65,5 +65,6 @@ class App(ctik.CTk):
         self.res_to_txt.grid(row=0, column=2, padx=5, pady=5, columnspan=3, sticky='w')
 
 
+
 app = App()
 app.mainloop()
