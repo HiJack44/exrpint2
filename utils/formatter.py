@@ -1,4 +1,6 @@
 # this set of functions will format the text from cells and send them to the sticker labels
+from PIL.ImageChops import offset
+
 from constants import auc
 from config import config
 from widgets import sticker as s
@@ -108,11 +110,11 @@ def label_filler(master, rows: list | dict):
 def label_killer(master):
     try:
         if master.stickers:
-            print(f"Lenght of master.stickers before killer: {len(master.stickers)}")
+            print(f"Lenght of master.stickers before killer: {len(master.stickers)} \n {master.stickers}")
             for i, label in enumerate(master.stickers):
                 if i in master.stickers:
                     master.stickers[i].destroy()
-            print(f"Lenght of master.stickers after killer: {len(master.stickers)}")
+            print(f"Lenght of master.stickers after killer: {len(master.stickers)} \n {master.stickers}")
 
         else:
             print(f"No stickers in {master}")
@@ -125,25 +127,41 @@ def label_killer(master):
 
 # This method will put rows into lists
 def line_splitter(rows):
+    offset_value = 0
+    #Check if row is empty and add count to offset counter, if there is an empty line, offset the next full one there
+    for i in list(rows):
+        if "\n\n\n" in rows[i]:
+            offset_value += 1
+        else:
+            rows[i] = rows[i][:-1]
+            rows[i - offset_value] = rows[i].split("\n")
+            print(f"Row {i} in line_spliter:{rows[i]}")
+    #Delete empty rows
     for i in list(rows):
         if "\n\n\n" in rows[i]:
             del rows[i]
-        else:
-            rows[i] = rows[i][:-1]
-            rows[i] = rows[i].split("\n")
-            print(f"Row {i} in line_spliter:{rows[i]}")
+    #Delete nn empty rows that didn't get formated and got doubled
+    for i in list(rows):
+        if not isinstance(rows[i], list):
+            del rows[i]
+    print(f"Offset value = {offset_value}")
     print(f"Rows in line_splitter: {rows}")
     return rows
 
 
 # This function limits the lenght of an item
 def line_limitter(rows, lim):
-    for row in rows:
-        for i, item in enumerate(rows[row]):
-            print(f"Item in line_limitter: {item}")
-            item = item[:lim] + ".." if len(item) > lim else item
-            rows[row][i] = item
-            print(f"New item: {item}")
+    print(f"Rows in line_limitter:\n{rows}")
+    try:
+        for row in rows:
+            for i, item in enumerate(rows[row]):
+                print(f"Item in line_limitter: {type(item)}{item} into {rows[row]}")
+                item = item[:lim] + ".." if len(item) > lim else item
+                rows[row][i] = item
+                print(f"New item: {item}")
+    except TypeError as te:
+        print(f"Ooops, {te}")
+        return None
     return rows
 
 
