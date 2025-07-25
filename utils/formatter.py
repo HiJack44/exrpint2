@@ -1,11 +1,10 @@
 # this set of functions will format the text from cells and send them to the sticker labels
-from PIL.ImageChops import offset
 
 from constants import auc
 from config import config
 from widgets import sticker as s
+from widgets import alertwindow as alwi
 import datetime
-
 
 # Function to clear all the cells
 def clear_cells(master):
@@ -23,6 +22,7 @@ def clear_cells(master):
 
 # This function commands all other formating functions
 def format_master(checkedboxes, master, submaster):
+    #alwi.open_alert(master, "Hello, there")
     rows = ""
     cells_to_format = ""
     label_killer(submaster)
@@ -44,7 +44,8 @@ def format_master(checkedboxes, master, submaster):
 # This method takes data from columns that are checked and puts them into dict of lists according to column
 def get_checked_cols(checkedboxes, master):
     if len(checkedboxes) != config['Format']['line_count']:
-
+        error_msg = f"Nesprávný počet sloupců!\nPočet sloupců musí být přesně {config['Format']['line_count']}"
+        line_count_error = alwi.open_alert(master, "Nesprávný počet sloupců", error_msg)
         raise IndexError
     cells = master.cells
     cells_to_format = {}

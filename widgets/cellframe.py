@@ -12,6 +12,7 @@ class Cellframe(ctik.CTkScrollableFrame):
     def __init__(self, master, row_count, col_count, cw, ch, *args, **kwargs):
         super().__init__(master, *args, **kwargs)
 
+        self.alert_window = None
         # Grid configuration
         self.grid_rowconfigure((0,1), weight=1)
         self.grid_columnconfigure((0,1,7), weight=1)
