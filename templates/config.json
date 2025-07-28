@@ -6,7 +6,9 @@
   },
   "Rezervace":{
     "row_count": 10,
-    "column_count": 2
+    "column_count": 2,
+    "format_rows": [2, 5, 6, 7, 8],
+    "sellers": ["","Petr", "Martin", "Zdeněk"]
 },
   "Format": {
     "brackets": 1,
@@ -23,5 +25,11 @@
   },
   "Sticker": {
     "width": 200
+  },
+  "Button_bar": {
+    "padx": 5,
+    "pady": 5,
+    "sticky": "w",
+    "columnspan": 1
   }
 }

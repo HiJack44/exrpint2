@@ -6,6 +6,7 @@ from widgets import sticker as s
 from widgets import alertwindow as alwi
 import datetime
 
+
 # Function to clear all the cells
 def clear_cells(master):
     try:
@@ -13,7 +14,7 @@ def clear_cells(master):
             col_letter = auc[col]
             for row, j in enumerate(master.cells[col_letter]):
                 master.cells[col_letter][row].delete("0.0", "end")
-                #print(f"Cell {col_letter}{row} erased")
+                # print(f"Cell {col_letter}{row} erased")
         print("All cells were erased")
     except:
         print("Erase failed")
@@ -22,7 +23,7 @@ def clear_cells(master):
 
 # This function commands all other formating functions
 def format_master(checkedboxes, master, submaster):
-    #alwi.open_alert(master, "Hello, there")
+    # alwi.open_alert(master, "Hello, there")
     rows = ""
     cells_to_format = ""
     label_killer(submaster)
@@ -34,16 +35,15 @@ def format_master(checkedboxes, master, submaster):
     rows = line_splitter(rows)
     rows = line_limitter(rows, config["Format"]["max_str_len"])
     rows = add_date(rows)
-    rows = line_sorter(rows, config['Format']['line_count'])
+    rows = line_sorter(rows, config["Format"]["line_count"])
     # print(rows)
-    #label_killer(submaster)
+    # label_killer(submaster)
     label_filler(submaster, rows)
-
 
 
 # This method takes data from columns that are checked and puts them into dict of lists according to column
 def get_checked_cols(checkedboxes, master):
-    if len(checkedboxes) != config['Format']['line_count']:
+    if len(checkedboxes) != config["Format"]["line_count"]:
         error_msg = f"Nesprávný počet sloupců!\nPočet sloupců musí být přesně {config['Format']['line_count']}"
         line_count_error = alwi.open_alert(master, "Nesprávný počet sloupců", error_msg)
         raise IndexError
@@ -111,11 +111,15 @@ def label_filler(master, rows: list | dict):
 def label_killer(master):
     try:
         if master.stickers:
-            print(f"Lenght of master.stickers before killer: {len(master.stickers)} \n {master.stickers}")
+            print(
+                f"Lenght of master.stickers before killer: {len(master.stickers)} \n {master.stickers}"
+            )
             for i, label in enumerate(master.stickers):
                 if i in master.stickers:
                     master.stickers[i].destroy()
-            print(f"Lenght of master.stickers after killer: {len(master.stickers)} \n {master.stickers}")
+            print(
+                f"Lenght of master.stickers after killer: {len(master.stickers)} \n {master.stickers}"
+            )
 
         else:
             print(f"No stickers in {master}")
@@ -123,13 +127,13 @@ def label_killer(master):
         print(f"AttributeError - {master} is empty or has no stickers")
     except KeyError as ke:
         print(f"KeyError {ke}. Skipping number {i}")
-        #i += 1
+        # i += 1
 
 
 # This method will put rows into lists
 def line_splitter(rows):
     offset_value = 0
-    #Check if row is empty and add count to offset counter, if there is an empty line, offset the next full one there
+    # Check if row is empty and add count to offset counter, if there is an empty line, offset the next full one there
     for i in list(rows):
         if "\n\n\n" in rows[i]:
             offset_value += 1
@@ -137,11 +141,11 @@ def line_splitter(rows):
             rows[i] = rows[i][:-1]
             rows[i - offset_value] = rows[i].split("\n")
             print(f"Row {i} in line_spliter:{rows[i]}")
-    #Delete empty rows
+    # Delete empty rows
     for i in list(rows):
         if "\n\n\n" in rows[i]:
             del rows[i]
-    #Delete nn empty rows that didn't get formated and got doubled
+    # Delete nn empty rows that didn't get formated and got doubled
     for i in list(rows):
         if not isinstance(rows[i], list):
             del rows[i]
@@ -177,6 +181,7 @@ def add_date(rows):
             rows[row][0] = item
     return rows
 
+
 # This function will sort rows into lines for label_printer
 def line_sorter(rows, lim):
     stickers_content = {}
@@ -200,7 +205,8 @@ def line_sorter(rows, lim):
     print(stickers_content)
     return stickers_content
 
-#This function adds piece sign to a specific column
+
+# This function adds piece sign to a specific column
 def piece_sign_adder(cells: list | dict):
     if config["Format"]["pieces"] == 1:
         print("Piece sign activated")
@@ -211,7 +217,8 @@ def piece_sign_adder(cells: list | dict):
                     cells[col][i] = item
     return cells
 
-#This function adds currency sign to a specific column
+
+# This function adds currency sign to a specific column
 def money_sign_adder(cells: list | dict):
     if config["Format"]["money_sign"] == 1:
         print("Currency sign activated")

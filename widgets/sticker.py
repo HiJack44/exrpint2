@@ -6,11 +6,16 @@ from config import config
 class Sticker(ctik.CTkLabel):
     def __init__(self, master, text, *args, **kwargs):
         super().__init__(
-            master, fg_color="pink",text=text, width=config["Sticker"]["width"], *args, **kwargs
+            master,
+            fg_color="pink",
+            text=text,
+            width=config["Sticker"]["width"],
+            *args,
+            **kwargs
         )
         self.text = text
 
-    #Function to obtain text from a sticker
+    # Function to obtain text from a sticker
 
     def get_label_text(self):
         return self.text

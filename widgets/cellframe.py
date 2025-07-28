@@ -7,6 +7,7 @@ from utils import events as evn
 import json
 from config import config
 
+
 # Cellframe class to spawn the cells
 class Cellframe(ctik.CTkScrollableFrame):
     def __init__(self, master, row_count, col_count, cw, ch, *args, **kwargs):
@@ -14,8 +15,8 @@ class Cellframe(ctik.CTkScrollableFrame):
 
         self.alert_window = None
         # Grid configuration
-        self.grid_rowconfigure((0,1), weight=1)
-        self.grid_columnconfigure((0,1,7), weight=1)
+        self.grid_rowconfigure((0, 1), weight=1)
+        self.grid_columnconfigure((0, 1, 7), weight=1)
         # Amount of rows and columns
         self.row_count = row_count
         self.col_count = col_count
@@ -41,7 +42,7 @@ class Cellframe(ctik.CTkScrollableFrame):
             self.letter_checkbox.grid(row=1, column=col, sticky="w")
             if col_letter not in self.checkboxes:
                 self.checkboxes[col_letter] = self.letter_checkbox
-            if col_letter in config['Zakaznici']['checked_cols']:
+            if col_letter in config["Zakaznici"]["checked_cols"]:
                 self.letter_checkbox.select()
 
             # if to check if column already exists, if not: create it

@@ -17,5 +17,5 @@ class Cell(ctik.CTkTextbox):
         return "This is text" + text
 
     def get_activity(self):
-        if self.get('0.0', 'end') != "":
+        if self.get("0.0", "end") != "":
             return 1

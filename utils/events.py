@@ -1,6 +1,7 @@
 # Key-bound events
 from constants import auc
 from utils import formatter as f
+from config import config
 
 
 # Focus the cell in the next column
@@ -73,3 +74,7 @@ def format_handler(master, submaster):
     print(checked_checkboxes)
     f.format_master(checked_checkboxes, master, submaster)
     return "break"
+
+
+def res_format_handler(master, submaster):
+    rows_to_fromat = config["Rezervace"]["fromat_rows"]
