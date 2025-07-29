@@ -1,5 +1,5 @@
 import customtkinter as ctik
-from widgets import stickerframe, tab
+from widgets import stickerframe, tab, sellers
 from utils import events as ev
 from utils import formatter as f
 from utils import print as p
@@ -114,6 +114,16 @@ class App(ctik.CTk):
             padx=config["Button_bar"]["padx"],
             pady=config["Button_bar"]["pady"],
             columnspan=config["Button_bar"]["columnspan"],
+        )
+
+        #Placing list of sellers for reservations
+        seller_list = sellers.SellerList(self.res_button_frame)
+        seller_list.grid(
+            row=0,
+            column=3,
+            padx=config["Button_bar"]["padx"],
+            pady=config["Button_bar"]["pady"],
+            columnspan=config["Button_bar"]["columnspan"]
         )
 
 
