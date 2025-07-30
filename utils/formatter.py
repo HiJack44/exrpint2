@@ -1,4 +1,5 @@
 # this set of functions will format the text from cells and send them to the sticker labels
+from datetime import timedelta
 
 from constants import auc
 from config import config
@@ -34,7 +35,7 @@ def format_master(checkedboxes, master, submaster):
     rows = row_sorter(cells_to_format)
     rows = line_splitter(rows)
     rows = line_limitter(rows, config["Format"]["max_str_len"])
-    rows = add_date(rows)
+    rows = add_date(rows, 0)
     rows = line_sorter(rows, config["Format"]["line_count"])
     # print(rows)
     # label_killer(submaster)
@@ -92,6 +93,7 @@ def bracket_removal(cells: list | dict):
 
 # this method will generate labels and fill them with rows
 def label_filler(master, rows: list | dict):
+    print(f"Rows in label_filler\n{rows}")
     master.stickers = {}
     for i, row in enumerate(rows):
         if i in rows:
@@ -171,13 +173,16 @@ def line_limitter(rows, lim):
 
 
 # This just adds current date to the item
-def add_date(rows):
+def add_date(rows, offset):
     if config["Format"]["date"] == 1:
         for row in rows:
             item = rows[row][0]
-            date = datetime.datetime.now()
+            date = datetime.datetime.now() + timedelta(offset)
             date = date.strftime("%d-%m")
-            item = f"{item} | {date}"
+            if offset > 0:
+                item = f"{item} | do: {date}"
+            else:
+                item = f"{item} | {date}"
             rows[row][0] = item
     return rows
 
@@ -227,4 +232,33 @@ def money_sign_adder(cells: list | dict):
                 if col == config["Format"]["money_sign_col"]:
                     item = config["Format"]["czk"] + item
                     cells[col][i] = item
+    return cells
+
+
+# This function will control formatting of reservation tab
+def reservation_formatter(master, submaster, rows, seller):
+    rows_to_format = []
+    rows = master.cells["B"]
+    print(f"Rows in reservation_formatter before loop:\n{rows}")
+    for i, cell in enumerate(rows):
+        if i in config["Rezervace"]["format_rows"]:
+            rows_to_format.append(cell.get("0.0", "end"))
+
+    # Adding seller to the first position of the list
+    label_killer(submaster)
+    rows_to_format.insert(0, seller)
+    rows_to_format = {0: rows_to_format}
+    print(f"Rows to format after loop:\n{rows_to_format}")
+    rows_to_format = break_remover(rows_to_format)
+    rows_to_format = line_limitter(rows_to_format, config["Format"]["max_str_len"])
+    rows_to_format = add_date(rows_to_format, config["Rezervace"]["until"])
+    rows_to_format = line_sorter(rows_to_format, config["Format"]["line_count"])
+    label_filler(submaster, rows_to_format)
+
+
+def break_remover(cells: list | dict):
+    for i, row in enumerate(cells[0]):
+        print(f"Cell {cells[0][i]} in break_remover")
+        if cells[0][i][-1] == "\n":
+            cells[0][i] = cells[0][i][:-1]
     return cells

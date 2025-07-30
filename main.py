@@ -106,24 +106,30 @@ class App(ctik.CTk):
             sticky="w",
         )
 
+        # Placing list of sellers for reservations
+        self.seller_list = sellers.SellerList(self.res_button_frame)
+        self.seller_list.grid(
+            row=0,
+            column=3,
+            padx=config["Button_bar"]["padx"],
+            pady=config["Button_bar"]["pady"],
+            columnspan=config["Button_bar"]["columnspan"],
+        )
+
         # Placing button for reservation formatting
-        self.format_button_res = ctik.CTkButton(self.res_button_frame, text="Format")
+        self.format_button_res = ctik.CTkButton(
+            self.res_button_frame,
+            text="Format",
+            command=lambda master=self.tabview.reserv1, submaster=self.stickerframe, seller=self.seller_list: ev.res_format_handler(
+                master, submaster, seller
+            ),
+        )
         self.format_button_res.grid(
             row=0,
             column=0,
             padx=config["Button_bar"]["padx"],
             pady=config["Button_bar"]["pady"],
             columnspan=config["Button_bar"]["columnspan"],
-        )
-
-        #Placing list of sellers for reservations
-        seller_list = sellers.SellerList(self.res_button_frame)
-        seller_list.grid(
-            row=0,
-            column=3,
-            padx=config["Button_bar"]["padx"],
-            pady=config["Button_bar"]["pady"],
-            columnspan=config["Button_bar"]["columnspan"]
         )
 
 

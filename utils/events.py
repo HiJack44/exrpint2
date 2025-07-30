@@ -76,5 +76,8 @@ def format_handler(master, submaster):
     return "break"
 
 
-def res_format_handler(master, submaster):
-    rows_to_fromat = config["Rezervace"]["fromat_rows"]
+def res_format_handler(master, submaster, seller):
+    rows_to_fromat = config["Rezervace"]["format_rows"]
+    print(f"Rows to format in res_format_handler\n{rows_to_fromat}")
+    seller = seller.get()
+    f.reservation_formatter(master, submaster, rows_to_fromat, seller)
