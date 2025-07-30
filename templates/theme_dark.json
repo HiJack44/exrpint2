@@ -83,7 +83,7 @@
     "button_hover_color": ["#325882", "#14375e"]
   },
   "CTkOptionMenu": {
-    "corner_radius": 6,
+    "corner_radius": 0,
     "fg_color": ["#3a7ebf", "#1f538d"],
     "button_color": ["#325882", "#14375e"],
     "button_hover_color": ["#234567", "#1e2c40"],

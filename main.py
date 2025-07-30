@@ -89,9 +89,11 @@ class App(ctik.CTk):
             padx=config["Button_bar"]["padx"],
             pady=config["Button_bar"]["pady"],
             columnspan=config["Button_bar"]["columnspan"],
+            sticky='w'
         )
 
-        # Placing button to convert stickers to txt
+        # Placing buttons to convert stickers to txt
+        # Placing convert to txt customer button
         self.zak_to_txt = ctik.CTkButton(
             self.cus_button_frame,
             text="Do TXT",
@@ -100,6 +102,21 @@ class App(ctik.CTk):
         self.zak_to_txt.grid(
             row=0,
             column=1,
+            padx=config["Button_bar"]["padx"],
+            pady=config["Button_bar"]["pady"],
+            columnspan=config["Button_bar"]["columnspan"],
+            sticky="w",
+        )
+
+        # Placing convert to txt reservation button
+        self.res_to_txt = ctik.CTkButton(
+            self.res_button_frame,
+            text="Do TXT",
+            command=lambda submaster=self.stickerframe: p.stickers_to_txt(submaster),
+        )
+        self.res_to_txt.grid(
+            row=0,
+            column=2,
             padx=config["Button_bar"]["padx"],
             pady=config["Button_bar"]["pady"],
             columnspan=config["Button_bar"]["columnspan"],
@@ -130,6 +147,7 @@ class App(ctik.CTk):
             padx=config["Button_bar"]["padx"],
             pady=config["Button_bar"]["pady"],
             columnspan=config["Button_bar"]["columnspan"],
+            sticky='w'
         )
 
 
