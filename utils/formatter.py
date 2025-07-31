@@ -6,6 +6,7 @@ from config import config
 from widgets import sticker as s
 from widgets import alertwindow as alwi
 import datetime
+import re
 
 
 # Function to clear all the cells
@@ -243,22 +244,27 @@ def reservation_formatter(master, submaster, rows, seller):
     for i, cell in enumerate(rows):
         if i in config["Rezervace"]["format_rows"]:
             rows_to_format.append(cell.get("0.0", "end"))
-
-    # Adding seller to the first position of the list
     label_killer(submaster)
     rows_to_format.insert(0, seller)
     rows_to_format = {0: rows_to_format}
     print(f"Rows to format after loop:\n{rows_to_format}")
     rows_to_format = break_remover(rows_to_format)
+    rows_to_format = space_remover(rows_to_format)
     rows_to_format = line_limitter(rows_to_format, config["Format"]["max_str_len"])
     rows_to_format = add_date(rows_to_format, config["Rezervace"]["until"])
     rows_to_format = line_sorter(rows_to_format, config["Format"]["line_count"])
     label_filler(submaster, rows_to_format)
 
-
+#This function removes new line at the end of cell
 def break_remover(cells: list | dict):
     for i, row in enumerate(cells[0]):
         print(f"Cell {cells[0][i]} in break_remover")
         if cells[0][i][-1] == "\n":
             cells[0][i] = cells[0][i][:-1]
+    return cells
+
+#This function remove one space at the beggining of a cell
+def space_remover(cells: list|dict):
+    for i, row in enumerate(cells[0]):
+        cells[0][i] = cells[0][i].strip()
     return cells
