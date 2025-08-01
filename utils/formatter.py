@@ -25,7 +25,6 @@ def clear_cells(master):
 
 # This function commands all other formating functions
 def format_master(checkedboxes, master, submaster):
-    # alwi.open_alert(master, "Hello, there")
     rows = ""
     cells_to_format = ""
     label_killer(submaster)
@@ -203,7 +202,7 @@ def line_sorter(rows, lim):
                         case 1 | 2 | 3 | 4:
                             stickers_content[i] = stickers_content[i] + "\n" + item
                         case 5:
-                            stickers_content[i] = stickers_content[i] + item
+                            stickers_content[i] = stickers_content[i] + " | " + item
                         case _:
                             print("Too many lines")
             except KeyError as e:
@@ -255,7 +254,8 @@ def reservation_formatter(master, submaster, rows, seller):
     rows_to_format = line_sorter(rows_to_format, config["Format"]["line_count"])
     label_filler(submaster, rows_to_format)
 
-#This function removes new line at the end of cell
+
+# This function removes new line at the end of cell
 def break_remover(cells: list | dict):
     for i, row in enumerate(cells[0]):
         print(f"Cell {cells[0][i]} in break_remover")
@@ -263,8 +263,9 @@ def break_remover(cells: list | dict):
             cells[0][i] = cells[0][i][:-1]
     return cells
 
-#This function remove one space at the beggining of a cell
-def space_remover(cells: list|dict):
+
+# This function remove one space at the beggining of a cell
+def space_remover(cells: list | dict):
     for i, row in enumerate(cells[0]):
         cells[0][i] = cells[0][i].strip()
     return cells

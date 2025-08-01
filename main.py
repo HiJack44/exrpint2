@@ -1,5 +1,5 @@
 import customtkinter as ctik
-from widgets import stickerframe, tab, sellers
+from widgets import stickerframe, tab, sellers, settings
 from utils import events as ev
 from utils import formatter as f
 from utils import print as p
@@ -15,20 +15,35 @@ class App(ctik.CTk):
         self.geometry("1250x700")
         self.minsize(1250, 700)
         self.title("Exprint 2")
+
         try:
             ctik.set_default_color_theme("templates/theme_dark.json")
         except:
             print("Failed to load theme")
-        self.grid_columnconfigure(0, weight=1)
+        self.grid_columnconfigure((0, 1), weight=1)
         # self.grid_rowconfigure(0, weight=1)
+
+        # Placing top bar
+        self.top_bar = ctik.CTkFrame(self, height=20, corner_radius=0)
+        self.top_bar.grid(row=0, column=0, columnspan=2, sticky="nswe")
+
+        # Placing setup button and Nonefying settings window
+        self.settings = None
+        self.settings_button = ctik.CTkButton(
+            self.top_bar,
+            text="Nastavení",
+            fg_color="transparent",
+            command=lambda parent=self: settings.open_settings(parent),
+        )
+        self.settings_button.grid(row=0, column=0, padx=5, pady=5)
 
         # Placing the tabview with cellframes
         self.tabview = tab.Tab(self)
-        self.tabview.grid(row=0, column=0, padx=(5, 0), sticky="nsw")
+        self.tabview.grid(row=1, column=0, padx=(5, 0), sticky="nsw")
 
         # Placing stickerframe which will be displaying formated stickers
         self.stickerframe = stickerframe.Stickerframe(self, width=280, height=600)
-        self.stickerframe.grid(row=0, column=1, padx=5, pady=5, sticky="sew")
+        self.stickerframe.grid(row=1, column=1, padx=5, pady=5, sticky="sew")
 
         # Placing frame for customers buttons
         self.cus_button_frame = ctik.CTkFrame(
@@ -89,7 +104,7 @@ class App(ctik.CTk):
             padx=config["Button_bar"]["padx"],
             pady=config["Button_bar"]["pady"],
             columnspan=config["Button_bar"]["columnspan"],
-            sticky='w'
+            sticky="w",
         )
 
         # Placing buttons to convert stickers to txt
@@ -147,9 +162,10 @@ class App(ctik.CTk):
             padx=config["Button_bar"]["padx"],
             pady=config["Button_bar"]["pady"],
             columnspan=config["Button_bar"]["columnspan"],
-            sticky='w'
+            sticky="w",
         )
 
 
-app = App()
-app.mainloop()
+if __name__ == "__main__":
+    app = App()
+    app.mainloop()
