@@ -43,7 +43,7 @@ class App(ctik.CTk):
 
         # Placing stickerframe which will be displaying formated stickers
         self.stickerframe = stickerframe.Stickerframe(self, width=280, height=600)
-        self.stickerframe.grid(row=1, column=1, padx=5, pady=5, sticky="sew")
+        self.stickerframe.grid(row=1, column=1, padx=5, pady=(20,0), sticky="nsew")
 
         # Placing frame for customers buttons
         self.cus_button_frame = ctik.CTkFrame(
@@ -100,7 +100,7 @@ class App(ctik.CTk):
         )
         self.erase_button_res.grid(
             row=0,
-            column=1,
+            column=4,
             padx=config["Button_bar"]["padx"],
             pady=config["Button_bar"]["pady"],
             columnspan=config["Button_bar"]["columnspan"],
@@ -131,7 +131,7 @@ class App(ctik.CTk):
         )
         self.res_to_txt.grid(
             row=0,
-            column=2,
+            column=1,
             padx=config["Button_bar"]["padx"],
             pady=config["Button_bar"]["pady"],
             columnspan=config["Button_bar"]["columnspan"],
@@ -142,7 +142,7 @@ class App(ctik.CTk):
         self.seller_list = sellers.SellerList(self.res_button_frame)
         self.seller_list.grid(
             row=0,
-            column=3,
+            column=2,
             padx=config["Button_bar"]["padx"],
             pady=config["Button_bar"]["pady"],
             columnspan=config["Button_bar"]["columnspan"],
