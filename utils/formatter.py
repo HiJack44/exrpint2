@@ -81,7 +81,7 @@ def row_sorter(cells: list | dict):
 
 # This function removes brackets and returns list of rows
 def bracket_removal(cells: list | dict):
-    if config["Format"]["brackets"] == 1:
+    if int(config["Format"]["brackets"]) == 1:
         for col in cells:
             for i, item in enumerate(cells[col]):
                 item = item.replace("(", "\n", 1)
@@ -174,7 +174,7 @@ def line_limitter(rows, lim):
 
 # This just adds current date to the item
 def add_date(rows, offset):
-    if config["Format"]["date"] == 1:
+    if int(config["Format"]["date"]) == 1:
         for row in rows:
             item = rows[row][0]
             date = datetime.datetime.now() + timedelta(offset)
@@ -213,7 +213,7 @@ def line_sorter(rows, lim):
 
 # This function adds piece sign to a specific column
 def piece_sign_adder(cells: list | dict):
-    if config["Format"]["pieces"] == 1:
+    if int(config["Format"]["pieces"]) == 1:
         print("Piece sign activated")
         for col in cells:
             for i, item in enumerate(cells[col]):
@@ -225,12 +225,12 @@ def piece_sign_adder(cells: list | dict):
 
 # This function adds currency sign to a specific column
 def money_sign_adder(cells: list | dict):
-    if config["Format"]["money_sign"] == 1:
+    if int(config["Format"]["money_sign"]) == 1:
         print("Currency sign activated")
         for col in cells:
             for i, item in enumerate(cells[col]):
                 if col == config["Format"]["money_sign_col"]:
-                    item = config["Format"]["czk"] + item
+                    item = config["Format"]["active_money_sign"] + item
                     cells[col][i] = item
     return cells
 

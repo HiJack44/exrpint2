@@ -13,3 +13,8 @@ class SellerList(ctik.CTkOptionMenu):
 
     def get_seller(self):
         return self.get()
+
+    def add_seller(self):
+        ...
+    def remove_seller(self):
+        ...
