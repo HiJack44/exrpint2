@@ -2,6 +2,8 @@
 
 import customtkinter as ctik
 import json, os
+
+
 from config import config, save_config
 from config import save_config as sc
 from widgets import settinglabel as sl
@@ -19,6 +21,7 @@ class Settings(ctik.CTkToplevel):
         self.grid_rowconfigure(1, weight=1)
 
         data = config
+        cellfieldpath = parent.tabview.cellfield1
 
         # Defining frame with settings options
         self.settings_frame = ctik.CTkScrollableFrame(self)
@@ -81,19 +84,30 @@ class Settings(ctik.CTkToplevel):
         """GENERAL SETTINGS SECTION"""
         """This section is for general settings"""
 
+        # Date adder
+        date_adder_var = ctik.StringVar(value=config["Format"]["date"])
+        self.date_adder_label = sl.MenuItem(
+            master=self.general_settings_frame, text="Datum", anchor="w"
+        )
+        self.date_adder_label.grid(row=1, column=0, padx=5, pady=5, sticky="w")
+        self.date_adder_switch = ctik.CTkSwitch(
+            self.general_settings_frame,
+            text="",
+            variable=date_adder_var,
+            onvalue="1",
+            offvalue="0",
+        )
+        self.date_adder_switch.grid(row=1, column=1, padx=5, pady=5, sticky="w")
+
         """"CUSTOMERS SETTING SECTION"""
         """"This section is for setup of the Customers window"""
+        self.cus_settings_frame.grid_columnconfigure(1, weight=1)
         # Currency switch
         money_sign_switch_var = ctik.StringVar(value=config["Format"]["money_sign"])
         self.money_sign_switch_label = sl.MenuItem(
             master=self.cus_settings_frame, text="Měna"
         )
-        self.money_sign_switch_label.grid(
-            row=1,
-            column=0,
-            padx=5,
-            pady=5,
-        )
+        self.money_sign_switch_label.grid(row=1, column=0, padx=5, pady=5, sticky="w")
         self.money_sign_switch = ctik.CTkSwitch(
             self.cus_settings_frame,
             text="",
@@ -110,7 +124,7 @@ class Settings(ctik.CTkToplevel):
         self.money_sign_list_label = sl.MenuItem(
             master=self.cus_settings_frame, text="Znak měny"
         )
-        self.money_sign_list_label.grid(row=2, column=0, padx=5, pady=5)
+        self.money_sign_list_label.grid(row=2, column=0, padx=5, pady=5, sticky="w")
         self.money_sign_list = ctik.CTkOptionMenu(
             self.cus_settings_frame,
             width=60,
@@ -119,21 +133,47 @@ class Settings(ctik.CTkToplevel):
         )
         self.money_sign_list.grid(row=2, column=1, padx=5, pady=5, sticky="w")
 
-        # Date adder
-        date_adder_var = ctik.StringVar(value=config["Format"]["date"])
-        self.date_adder_label = ctik.CTkLabel(self.cus_settings_frame, text="Datum")
-        self.date_adder_label.grid(row=4, column=0, padx=5, pady=5, sticky="w")
-        self.date_adder_switch = ctik.CTkSwitch(
-            self.cus_settings_frame,
-            text="",
-            variable=date_adder_var,
-            onvalue="1",
-            offvalue="0",
+        # Currency sign colum selector
+        self.money_col_label = sl.MenuItem(
+            master=self.cus_settings_frame, text="Sloupec měny"
         )
-        self.date_adder_switch.grid(row=4, column=1, padx=5, pady=5)
+        self.money_col_label.grid(row=3, column=0, pady=5, padx=5, sticky="w")
+
+        checkboxes = list(
+            cellfieldpath.checkboxes.keys()
+        )  # Getting list of existing columns
+        money_col_var = ctik.StringVar(value=config["Format"]["money_sign_col"])
+        self.money_col_list = ctik.CTkOptionMenu(
+            self.cus_settings_frame, width=60, variable=money_col_var, values=checkboxes
+        )
+        self.money_col_list.grid(row=3, column=1, pady=5, padx=5, sticky="w")
 
         """"RESERVATION SETTINGS SECTION"""
         """This section is for reservation settings"""
+
+        # Reservation time - days until reservation expires
+        def slidernumber(value):
+            days = self.until_days_slider.get()
+            self.until_days_current.configure(text=int(days))
+
+        until_days_var = ctik.IntVar(value=config["Rezervace"]["until"])
+        self.until_days_label = sl.MenuItem(self.res_settings_frame, text="Počet dní")
+        self.until_days_label.grid(row=1, column=0, pady=5, padx=5, sticky="w")
+
+        self.until_days_slider = ctik.CTkSlider(
+            self.res_settings_frame,
+            from_=0,
+            to=7,
+            number_of_steps=7,
+            variable=until_days_var,
+            command=slidernumber,
+        )
+        self.until_days_slider.grid(row=1, column=1, pady=5, padx=5, sticky="w")
+
+        self.until_days_current = sl.MenuItem(
+            self.res_settings_frame, text=until_days_var.get()
+        )
+        self.until_days_current.grid(row=2, column=1, padx=5, sticky="ew")
 
     def close_settings(self):
         self.destroy()
@@ -142,6 +182,8 @@ class Settings(ctik.CTkToplevel):
         data["Format"]["money_sign"] = self.money_sign_switch.get()
         data["Format"]["active_money_sign"] = self.money_sign_list.get()
         data["Format"]["date"] = self.date_adder_switch.get()
+        data["Format"]["money_sign_col"] = self.money_col_list.get()
+        data["Rezervace"]["until"] = self.until_days_slider.get()
         sc(data)
         self.close_settings()
 
