@@ -4,9 +4,10 @@ import customtkinter as ctik
 import json, os
 
 
-from config import config, save_config
+from config import config
 from config import save_config as sc
 from widgets import settinglabel as sl
+from widgets import sellermanager as sm
 
 
 class Settings(ctik.CTkToplevel):
@@ -22,6 +23,8 @@ class Settings(ctik.CTkToplevel):
 
         data = config
         cellfieldpath = parent.tabview.cellfield1
+
+        self.sellermanager = None
 
         # Defining frame with settings options
         self.settings_frame = ctik.CTkScrollableFrame(self)
@@ -102,6 +105,7 @@ class Settings(ctik.CTkToplevel):
         """"CUSTOMERS SETTING SECTION"""
         """"This section is for setup of the Customers window"""
         self.cus_settings_frame.grid_columnconfigure(1, weight=1)
+
         # Currency switch
         money_sign_switch_var = ctik.StringVar(value=config["Format"]["money_sign"])
         self.money_sign_switch_label = sl.MenuItem(
@@ -152,6 +156,7 @@ class Settings(ctik.CTkToplevel):
         """This section is for reservation settings"""
 
         # Reservation time - days until reservation expires
+        # Function to display current state of the slider
         def slidernumber(value):
             days = self.until_days_slider.get()
             self.until_days_current.configure(text=int(days))
@@ -165,19 +170,36 @@ class Settings(ctik.CTkToplevel):
             from_=0,
             to=7,
             number_of_steps=7,
+            width=150,
             variable=until_days_var,
             command=slidernumber,
         )
-        self.until_days_slider.grid(row=1, column=1, pady=5, padx=5, sticky="w")
+        self.until_days_slider.grid(row=1, column=1, pady=(5,0), padx=5, sticky="w")
 
         self.until_days_current = sl.MenuItem(
             self.res_settings_frame, text=until_days_var.get()
         )
-        self.until_days_current.grid(row=2, column=1, padx=5, sticky="ew")
+        self.until_days_current.grid(row=2, column=1, padx=5, pady=(0,5), sticky="ew")
 
+        #Seller list with add/remove buttons in column 3
+        self.seller_list_label = sl.MenuItem(self.res_settings_frame, text="Seznam prodejců")
+        self.seller_list_label.grid(row=3, column=0, pady=5, padx=5, sticky='w')
+
+        self.seller_list_menu = ctik.CTkOptionMenu(self.res_settings_frame, values=config['Rezervace']['sellers'])
+        self.seller_list_menu.grid(row=3, column=1, pady=5, padx=5, sticky='w')
+
+        # This button opens a new window with option to add new or remove some sellers
+        self.seller_list_button = ctik.CTkButton(self.res_settings_frame, text="+/-", width=20, fg_color='transparent',
+                                                 command=lambda parent=self: sm.open_seller_manager(parent))
+        self.seller_list_button.grid(row=3, column=2, padx=(0,5), pady=5, sticky='w')
+
+
+    """General methods and functions of the settings class"""
+    #This function just closes the settings window
     def close_settings(self):
         self.destroy()
 
+    #This function saves all the settings by rewriting config.json
     def save_settings(self, data):
         data["Format"]["money_sign"] = self.money_sign_switch.get()
         data["Format"]["active_money_sign"] = self.money_sign_list.get()
@@ -187,9 +209,9 @@ class Settings(ctik.CTkToplevel):
         sc(data)
         self.close_settings()
 
-
+# This is super necessary
 def open_settings(parent):
     if parent.settings is None or not parent.settings.winfo_exists():
         parent.settings = Settings(parent)
     else:
-        parent.settings.focus_set()
+        parent.settings.focus()
