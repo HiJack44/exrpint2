@@ -23,6 +23,7 @@ class Settings(ctik.CTkToplevel):
 
         data = config
         cellfieldpath = parent.tabview.cellfield1
+        self.alert_window = None
 
         self.sellermanager = None
 
