@@ -5,6 +5,7 @@ from utils import formatter as f
 from utils import print as p
 from config import config
 
+ctik.set_default_color_theme("templates/theme_dark.json")
 
 # Main function of the program
 class App(ctik.CTk):
@@ -16,16 +17,11 @@ class App(ctik.CTk):
         self.minsize(1250, 700)
         self.title("Exprint 2")
 
-        try:
-            ctik.set_default_color_theme("templates/theme_dark.json")
-        except:
-            print("Failed to load theme")
-        self.grid_columnconfigure((0, 1), weight=1)
-        # self.grid_rowconfigure(0, weight=1)
 
         # Placing top bar
         self.top_bar = ctik.CTkFrame(self, height=20, corner_radius=0)
         self.top_bar.grid(row=0, column=0, columnspan=2, sticky="nswe")
+        self.top_bar.grid_columnconfigure(1, weight=1)
 
         # Placing setup button and Nonefying settings window
         self.settings = None
@@ -33,9 +29,13 @@ class App(ctik.CTk):
             self.top_bar,
             text="Nastavení",
             fg_color="transparent",
-            command=lambda parent=self: settings.open_settings(parent),
+            command=lambda parent=self: settings.open_settings(parent)
         )
         self.settings_button.grid(row=0, column=0, padx=5, pady=5)
+
+        #Placing reload button
+        self.reload_button = ctik.CTkButton(self.top_bar, text = "Reload", fg_color='transparent', command=self.restart)
+        self.reload_button.grid(row=0, column=1, padx=5, pady=5, sticky='e')
 
         # Placing the tabview with cellframes
         self.tabview = tab.Tab(self)
@@ -165,6 +165,10 @@ class App(ctik.CTk):
             sticky="w",
         )
 
+    def restart(self):
+        self.destroy()
+        app = App()
+        app.mainloop()
 
 if __name__ == "__main__":
     app = App()

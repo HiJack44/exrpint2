@@ -1,6 +1,7 @@
 # This is a top-level window with options to add or remove seller
 
 import customtkinter as ctik
+import re
 from config import config
 from config import save_config as sc
 from widgets import sellers
@@ -22,7 +23,7 @@ class SellerManager(ctik.CTkToplevel):
         self.seller_manager_label.grid(row=0, column=0, columnspan=2)
 
         """Input seller section to add new seller to the list"""
-        # Frame to ecapsulate input seller section
+        # Frame to encapsulate input seller section
         self.input_seller_frame = ctik.CTkFrame(
             self, border_width=2, border_color="black", fg_color="transparent"
         )
@@ -46,14 +47,24 @@ class SellerManager(ctik.CTkToplevel):
         # This function adds new seller to the list
         def add_seller(alldata, master):
             new_name = self.input_seller_field.get()
-            self.input_seller_field.delete("0", "end")
-            alldata["Rezervace"]["sellers"].append(new_name)
-            sc(alldata)
-            confirm = alwi.open_alert(
-                master,
-                "Přidán nový prodejce",
-                f"Nový prodejce přidán\n{new_name}\nZměna se projeví až po restartu aplikace",
-            )
+            new_name = new_name.strip()
+            if not re.match("^[a-zA-Z]+$", new_name) or len(new_name) > 8:
+                decline = alwi.open_alert(
+                    master,
+                    "Špatný formát jména",
+                    "Zadané jméno prodejce je ve špatném formátu.\n "
+                    "Povolené znaky jsou pouze a-z, A-Z a maximální délka je 8 znaků",
+                )
+            else:
+                self.input_seller_field.delete("0", "end")
+                alldata["Rezervace"]["sellers"].append(new_name)
+                sc(alldata)
+                confirm = alwi.open_alert(
+                    master,
+                    "Přidán nový prodejce",
+                    f"Nový prodejce přidán\n{new_name}\nZměna se projeví až po restartu aplikace",
+                )
+
 
         """Remove seller section to remove sellers from the list"""
         self.remove_seller_frame = ctik.CTkFrame(
@@ -81,6 +92,8 @@ class SellerManager(ctik.CTkToplevel):
             seller_to_del = self.remove_seller_list.get()
             alldata["Rezervace"]["sellers"].remove(seller_to_del)
             sc(alldata)
+            msg = f"Prodejce {seller_to_del} byl odstraněn.\nZměna se projeví po restartu aplikace"
+            confirm = alwi.open_alert(master, "Prodejce odstraněn", msg)
 
         """Button section"""
         self.close_button = ctik.CTkButton(
