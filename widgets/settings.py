@@ -162,6 +162,15 @@ class Settings(ctik.CTkToplevel):
         self.bracket_remover_switch = ctik.CTkSwitch(self.cus_settings_frame, text="", variable=bracket_remover_var, onvalue="1", offvalue="0" )
         self.bracket_remover_switch.grid(row=4, column=1, padx=5, pady=5, sticky='w')
 
+        # Piece sign adder
+        piece_sign_adder_var = ctik.StringVar(value=config["Format"]['pieces'])
+
+        self.piece_sign_adder_label = ctik.CTkLabel(self.cus_settings_frame, text="Kusovník")
+        self.piece_sign_adder_label.grid(row=5, column=0, pady=5, padx=5, sticky='w')
+
+        self.piece_sign_adder_switch = ctik.CTkSwitch(self.cus_settings_frame, text="", variable=piece_sign_adder_var, onvalue="1", offvalue="0")
+        self.piece_sign_adder_switch.grid(row=5, column=1, pady=5, padx=5, sticky='w')
+
         """"RESERVATION SETTINGS SECTION"""
         """This section is for reservation settings"""
 
@@ -216,6 +225,7 @@ class Settings(ctik.CTkToplevel):
         data["Format"]["date"] = self.date_adder_switch.get()
         data["Format"]["money_sign_col"] = self.money_col_list.get()
         data["Format"]["brackets"] = self.bracket_remover_switch.get()
+        data["Format"]["pieces"] = self.piece_sign_adder_switch.get()
         data["Rezervace"]["until"] = self.until_days_slider.get()
 
         sc(data)
