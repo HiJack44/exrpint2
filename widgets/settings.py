@@ -154,7 +154,13 @@ class Settings(ctik.CTkToplevel):
         self.money_col_list.grid(row=3, column=1, pady=5, padx=5, sticky="w")
 
         # Bracket remover
+        bracket_remover_var = ctik.StringVar(value=config["Format"]["brackets"])
+
         self.bracket_remover_label = sl.MenuItem(master=self.cus_settings_frame, text="Závorkovač")
+        self.bracket_remover_label.grid(row=4, column=0, pady=5, padx=5, sticky='w')
+
+        self.bracket_remover_switch = ctik.CTkSwitch(self.cus_settings_frame, text="", variable=bracket_remover_var, onvalue="1", offvalue="0" )
+        self.bracket_remover_switch.grid(row=4, column=1, padx=5, pady=5, sticky='w')
 
         """"RESERVATION SETTINGS SECTION"""
         """This section is for reservation settings"""
@@ -209,7 +215,9 @@ class Settings(ctik.CTkToplevel):
         data["Format"]["active_money_sign"] = self.money_sign_list.get()
         data["Format"]["date"] = self.date_adder_switch.get()
         data["Format"]["money_sign_col"] = self.money_col_list.get()
+        data["Format"]["brackets"] = self.bracket_remover_switch.get()
         data["Rezervace"]["until"] = self.until_days_slider.get()
+
         sc(data)
         self.close_settings()
 
