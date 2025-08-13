@@ -1,4 +1,5 @@
 # This is a top-level window with options to add or remove seller
+from sys import maxsize
 
 import customtkinter as ctik
 import re
@@ -12,22 +13,25 @@ class SellerManager(ctik.CTkToplevel):
     def __init__(self, parent, *args, **kwargs):
         super().__init__(parent, *args, **kwargs)
 
-        self.geometry("300x500")
+        self.geometry("200x330")
         self.title("Přidat nebo odebrat prodejce")
+        self.maxsize(width=220, height=340)
 
         data = config
 
         self.seller_manager_label = ctik.CTkLabel(
             self, text="Přidat nebo odebrat prodejce", fg_color="transparent"
         )
-        self.seller_manager_label.grid(row=0, column=0, columnspan=2)
+        self.seller_manager_label.grid(row=0, column=0, sticky='ew')
 
         """Input seller section to add new seller to the list"""
         # Frame to encapsulate input seller section
         self.input_seller_frame = ctik.CTkFrame(
             self, border_width=2, border_color="black", fg_color="transparent"
         )
-        self.input_seller_frame.grid(row=1, column=0)
+        self.input_seller_frame.grid(row=1, column=0, padx=5, pady=5, sticky='ew')
+
+        self.input_seller_frame.grid_columnconfigure(0, weight=1)
 
         self.input_seller_label = ctik.CTkLabel(
             self.input_seller_frame, text="Nový prodejce", fg_color="transparent"
@@ -42,7 +46,7 @@ class SellerManager(ctik.CTkToplevel):
             text="Přidat",
             command=lambda alldata=data, master=parent: add_seller(alldata, master),
         )
-        self.input_seller_add_button.grid(row=2, column=0, padx=5, pady=5)
+        self.input_seller_add_button.grid(row=2, column=0, padx=5, pady=(5,10))
 
         # This function adds new seller to the list
         def add_seller(alldata, master):
@@ -70,7 +74,9 @@ class SellerManager(ctik.CTkToplevel):
         self.remove_seller_frame = ctik.CTkFrame(
             self, border_width=2, border_color="black", fg_color="transparent"
         )
-        self.remove_seller_frame.grid(row=2, column=0)
+        self.remove_seller_frame.grid(row=2, column=0, padx=5, pady=5, sticky='ew')
+
+        self.remove_seller_frame.grid_columnconfigure(0, weight=1)
 
         self.remove_seller_label = ctik.CTkLabel(
             self.remove_seller_frame, text="Odstranit prodejce", fg_color="transparent"
@@ -86,7 +92,7 @@ class SellerManager(ctik.CTkToplevel):
             text="Odstranit",
             command=lambda alldata=data, master=parent: remove_seller(alldata, master),
         )
-        self.remove_seller_button.grid(row=2, column=0, padx=5, pady=5)
+        self.remove_seller_button.grid(row=2, column=0, padx=5, pady=(5,10))
 
         def remove_seller(alldata, master):
             seller_to_del = self.remove_seller_list.get()
@@ -100,6 +106,7 @@ class SellerManager(ctik.CTkToplevel):
             self, text="Zavřít", command=self.close_seller_manager
         )
         self.close_button.grid(row=3, column=0, padx=5, pady=5)
+
 
     def close_seller_manager(self):
         self.destroy()

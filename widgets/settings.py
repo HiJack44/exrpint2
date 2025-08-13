@@ -153,6 +153,9 @@ class Settings(ctik.CTkToplevel):
         )
         self.money_col_list.grid(row=3, column=1, pady=5, padx=5, sticky="w")
 
+        # Bracket remover
+        self.bracket_remover_label = sl.MenuItem(master=self.cus_settings_frame, text="Závorkovač")
+
         """"RESERVATION SETTINGS SECTION"""
         """This section is for reservation settings"""
 
