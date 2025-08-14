@@ -87,13 +87,35 @@ class Settings(ctik.CTkToplevel):
 
         """GENERAL SETTINGS SECTION"""
         """This section is for general settings"""
+        #Line limiter - this will limit the lenght of each line
+        def strlennumber(value):
+            strlen = self.line_limiter_slider.get()
+            self.line_limiter_current_label.configure(text=int(strlen))
+
+        line_limiter_var = ctik.IntVar(value=config['Format']['max_str_len'])
+
+        self.line_limiter_label = sl.MenuItem(self.general_settings_frame, text="Max. délka textu")
+        self.line_limiter_label.grid(row=1, column=0, padx=5, pady=5, sticky='w')
+
+        self.line_limiter_slider = ctik.CTkSlider(self.general_settings_frame,
+                                                  from_=5,
+                                                  to=15,
+                                                  number_of_steps=10,
+                                                  width=150,
+                                                  variable=line_limiter_var,
+                                                  command=strlennumber
+                                                  )
+        self.line_limiter_slider.grid(row=1, column=1, padx=5, pady=(5,0), sticky='w')
+
+        self.line_limiter_current_label = sl.MenuItem(self.general_settings_frame, text=line_limiter_var.get())
+        self.line_limiter_current_label.grid(row=2, column=1, padx=5, pady=(0,5), sticky='ew')
 
         # Date adder
         date_adder_var = ctik.StringVar(value=config["Format"]["date"])
         self.date_adder_label = sl.MenuItem(
             master=self.general_settings_frame, text="Datum", anchor="w"
         )
-        self.date_adder_label.grid(row=1, column=0, padx=5, pady=5, sticky="w")
+        self.date_adder_label.grid(row=3, column=0, padx=5, pady=5, sticky="w")
         self.date_adder_switch = ctik.CTkSwitch(
             self.general_settings_frame,
             text="",
@@ -101,7 +123,7 @@ class Settings(ctik.CTkToplevel):
             onvalue="1",
             offvalue="0",
         )
-        self.date_adder_switch.grid(row=1, column=1, padx=5, pady=5, sticky="w")
+        self.date_adder_switch.grid(row=3, column=1, padx=5, pady=5, sticky="w")
 
         """"CUSTOMERS SETTING SECTION"""
         """"This section is for setup of the Customers window"""
@@ -256,6 +278,7 @@ class Settings(ctik.CTkToplevel):
 
     # This function saves all the settings by rewriting config.json
     def save_settings(self, data):
+        data["Format"]["max_str_len"] = int(self.line_limiter_slider.get())
         data["Format"]["money_sign"] = self.money_sign_switch.get()
         data["Format"]["active_money_sign"] = self.money_sign_list.get()
         data["Format"]["date"] = self.date_adder_switch.get()
@@ -263,7 +286,7 @@ class Settings(ctik.CTkToplevel):
         data["Format"]["brackets"] = self.bracket_remover_switch.get()
         data["Format"]["pieces"] = self.piece_sign_adder_switch.get()
         data["Format"]["pieces_col"] = self.piece_sign_col_list.get()
-        data["Rezervace"]["until"] = self.until_days_slider.get()
+        data["Rezervace"]["until"] = int(self.until_days_slider.get())
 
         sc(data)
         self.close_settings()
