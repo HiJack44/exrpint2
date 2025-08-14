@@ -156,20 +156,47 @@ class Settings(ctik.CTkToplevel):
         # Bracket remover
         bracket_remover_var = ctik.StringVar(value=config["Format"]["brackets"])
 
-        self.bracket_remover_label = sl.MenuItem(master=self.cus_settings_frame, text="Závorkovač")
-        self.bracket_remover_label.grid(row=4, column=0, pady=5, padx=5, sticky='w')
+        self.bracket_remover_label = sl.MenuItem(
+            master=self.cus_settings_frame, text="Závorkovač"
+        )
+        self.bracket_remover_label.grid(row=4, column=0, pady=5, padx=5, sticky="w")
 
-        self.bracket_remover_switch = ctik.CTkSwitch(self.cus_settings_frame, text="", variable=bracket_remover_var, onvalue="1", offvalue="0" )
-        self.bracket_remover_switch.grid(row=4, column=1, padx=5, pady=5, sticky='w')
+        self.bracket_remover_switch = ctik.CTkSwitch(
+            self.cus_settings_frame,
+            text="",
+            variable=bracket_remover_var,
+            onvalue="1",
+            offvalue="0",
+        )
+        self.bracket_remover_switch.grid(row=4, column=1, padx=5, pady=5, sticky="w")
 
         # Piece sign adder
-        piece_sign_adder_var = ctik.StringVar(value=config["Format"]['pieces'])
+        piece_sign_adder_var = ctik.StringVar(value=config["Format"]["pieces"])
 
-        self.piece_sign_adder_label = ctik.CTkLabel(self.cus_settings_frame, text="Kusovník")
-        self.piece_sign_adder_label.grid(row=5, column=0, pady=5, padx=5, sticky='w')
+        self.piece_sign_adder_label = ctik.CTkLabel(
+            self.cus_settings_frame, text="Kusovník"
+        )
+        self.piece_sign_adder_label.grid(row=5, column=0, pady=5, padx=5, sticky="w")
 
-        self.piece_sign_adder_switch = ctik.CTkSwitch(self.cus_settings_frame, text="", variable=piece_sign_adder_var, onvalue="1", offvalue="0")
-        self.piece_sign_adder_switch.grid(row=5, column=1, pady=5, padx=5, sticky='w')
+        self.piece_sign_adder_switch = ctik.CTkSwitch(
+            self.cus_settings_frame,
+            text="",
+            variable=piece_sign_adder_var,
+            onvalue="1",
+            offvalue="0",
+        )
+        self.piece_sign_adder_switch.grid(row=5, column=1, pady=5, padx=5, sticky="w")
+
+        #Piece sign column selector
+        piece_sign_col_var = ctik.StringVar(value=config["Format"]["pieces_col"])
+
+        self.piece_sign_col_label = sl.MenuItem(self.cus_settings_frame, text="Sloupec kusovníku")
+        self.piece_sign_col_label.grid(row=6, column=0, padx=5, pady=5, sticky='w')
+
+        self.piece_sign_col_list = ctik.CTkOptionMenu(self.cus_settings_frame, width=60, variable=piece_sign_col_var, values=checkboxes)
+        self.piece_sign_col_list.grid(row=6, column=1, padx=5, pady=5, sticky='w')
+
+
 
         """"RESERVATION SETTINGS SECTION"""
         """This section is for reservation settings"""
@@ -193,32 +220,41 @@ class Settings(ctik.CTkToplevel):
             variable=until_days_var,
             command=slidernumber,
         )
-        self.until_days_slider.grid(row=1, column=1, pady=(5,0), padx=5, sticky="w")
+        self.until_days_slider.grid(row=1, column=1, pady=(5, 0), padx=5, sticky="w")
 
         self.until_days_current = sl.MenuItem(
             self.res_settings_frame, text=until_days_var.get()
         )
-        self.until_days_current.grid(row=2, column=1, padx=5, pady=(0,5), sticky="ew")
+        self.until_days_current.grid(row=2, column=1, padx=5, pady=(0, 5), sticky="ew")
 
-        #Seller list with add/remove buttons in column 3
-        self.seller_list_label = sl.MenuItem(self.res_settings_frame, text="Seznam prodejců")
-        self.seller_list_label.grid(row=3, column=0, pady=5, padx=5, sticky='w')
+        # Seller list with add/remove buttons in column 3
+        self.seller_list_label = sl.MenuItem(
+            self.res_settings_frame, text="Seznam prodejců"
+        )
+        self.seller_list_label.grid(row=3, column=0, pady=5, padx=5, sticky="w")
 
-        self.seller_list_menu = ctik.CTkOptionMenu(self.res_settings_frame, values=config['Rezervace']['sellers'])
-        self.seller_list_menu.grid(row=3, column=1, pady=5, padx=5, sticky='w')
+        self.seller_list_menu = ctik.CTkOptionMenu(
+            self.res_settings_frame, values=config["Rezervace"]["sellers"]
+        )
+        self.seller_list_menu.grid(row=3, column=1, pady=5, padx=5, sticky="w")
 
         # This button opens a new window with option to add new or remove some sellers
-        self.seller_list_button = ctik.CTkButton(self.res_settings_frame, text="+/-", width=20, fg_color='transparent',
-                                                 command=lambda parent=self: sm.open_seller_manager(parent))
-        self.seller_list_button.grid(row=3, column=2, padx=(0,5), pady=5, sticky='w')
-
+        self.seller_list_button = ctik.CTkButton(
+            self.res_settings_frame,
+            text="+/-",
+            width=20,
+            fg_color="transparent",
+            command=lambda parent=self: sm.open_seller_manager(parent),
+        )
+        self.seller_list_button.grid(row=3, column=2, padx=(0, 5), pady=5, sticky="w")
 
     """General methods and functions of the settings class"""
-    #This function just closes the settings window
+
+    # This function just closes the settings window
     def close_settings(self):
         self.destroy()
 
-    #This function saves all the settings by rewriting config.json
+    # This function saves all the settings by rewriting config.json
     def save_settings(self, data):
         data["Format"]["money_sign"] = self.money_sign_switch.get()
         data["Format"]["active_money_sign"] = self.money_sign_list.get()
@@ -226,10 +262,12 @@ class Settings(ctik.CTkToplevel):
         data["Format"]["money_sign_col"] = self.money_col_list.get()
         data["Format"]["brackets"] = self.bracket_remover_switch.get()
         data["Format"]["pieces"] = self.piece_sign_adder_switch.get()
+        data["Format"]["pieces_col"] = self.piece_sign_col_list.get()
         data["Rezervace"]["until"] = self.until_days_slider.get()
 
         sc(data)
         self.close_settings()
+
 
 # This is super necessary
 def open_settings(parent):
