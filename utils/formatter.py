@@ -202,7 +202,7 @@ def line_sorter(rows, lim):
                         case 1 | 2 | 3 | 4:
                             stickers_content[i] = stickers_content[i] + "\n" + item
                         case 5:
-                            stickers_content[i] = stickers_content[i] + " | " + item
+                            stickers_content[i] = stickers_content[i] + "|" + item
                         case _:
                             print("Too many lines")
             except KeyError as e:
@@ -218,7 +218,7 @@ def piece_sign_adder(cells: list | dict):
         for col in cells:
             for i, item in enumerate(cells[col]):
                 if col == config["Format"]["pieces_col"]:
-                    item = " | ks: " + item
+                    item = "|ks: " + item
                     cells[col][i] = item
     return cells
 

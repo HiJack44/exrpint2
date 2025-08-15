@@ -1,6 +1,6 @@
 {
   "Zakaznici": {
-    "row_count": 16,
+    "row_count": 15,
     "column_count": 10,
     "checked_cols": [
       "B",
@@ -25,7 +25,7 @@
       "Jarda",
       "Petr"
     ],
-    "until": 2
+    "until": 1
   },
   "Format": {
     "brackets": "1",
@@ -33,7 +33,7 @@
     "pieces_col": "H",
     "date": "1",
     "seller": 1,
-    "max_str_len": 12,
+    "max_str_len": 14,
     "line_count": 5,
     "money_sign": "1",
     "money_sign_col": "G",

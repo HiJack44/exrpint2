@@ -8,6 +8,7 @@ from config import config
 from config import save_config as sc
 from widgets import settinglabel as sl
 from widgets import sellermanager as sm
+from widgets import spinbox
 
 
 class Settings(ctik.CTkToplevel):
@@ -87,28 +88,36 @@ class Settings(ctik.CTkToplevel):
 
         """GENERAL SETTINGS SECTION"""
         """This section is for general settings"""
-        #Line limiter - this will limit the lenght of each line
+
+        # Line limiter - this will limit the lenght of each line
         def strlennumber(value):
             strlen = self.line_limiter_slider.get()
             self.line_limiter_current_label.configure(text=int(strlen))
 
-        line_limiter_var = ctik.IntVar(value=config['Format']['max_str_len'])
+        line_limiter_var = ctik.IntVar(value=config["Format"]["max_str_len"])
 
-        self.line_limiter_label = sl.MenuItem(self.general_settings_frame, text="Max. délka textu")
-        self.line_limiter_label.grid(row=1, column=0, padx=5, pady=5, sticky='w')
+        self.line_limiter_label = sl.MenuItem(
+            self.general_settings_frame, text="Max. délka textu"
+        )
+        self.line_limiter_label.grid(row=1, column=0, padx=5, pady=(5,0), sticky="w")
 
-        self.line_limiter_slider = ctik.CTkSlider(self.general_settings_frame,
-                                                  from_=5,
-                                                  to=15,
-                                                  number_of_steps=10,
-                                                  width=150,
-                                                  variable=line_limiter_var,
-                                                  command=strlennumber
-                                                  )
-        self.line_limiter_slider.grid(row=1, column=1, padx=5, pady=(5,0), sticky='w')
+        self.line_limiter_slider = ctik.CTkSlider(
+            self.general_settings_frame,
+            from_=5,
+            to=15,
+            number_of_steps=10,
+            width=150,
+            variable=line_limiter_var,
+            command=strlennumber,
+        )
+        self.line_limiter_slider.grid(row=1, column=1, padx=5, pady=(5, 0), sticky="w")
 
-        self.line_limiter_current_label = sl.MenuItem(self.general_settings_frame, text=line_limiter_var.get())
-        self.line_limiter_current_label.grid(row=2, column=1, padx=5, pady=(0,5), sticky='ew')
+        self.line_limiter_current_label = sl.MenuItem(
+            self.general_settings_frame, text=line_limiter_var.get()
+        )
+        self.line_limiter_current_label.grid(
+            row=2, column=1, padx=5, pady=(0, 5), sticky="ew"
+        )
 
         # Date adder
         date_adder_var = ctik.StringVar(value=config["Format"]["date"])
@@ -195,7 +204,7 @@ class Settings(ctik.CTkToplevel):
         # Piece sign adder
         piece_sign_adder_var = ctik.StringVar(value=config["Format"]["pieces"])
 
-        self.piece_sign_adder_label = ctik.CTkLabel(
+        self.piece_sign_adder_label = sl.MenuItem(
             self.cus_settings_frame, text="Kusovník"
         )
         self.piece_sign_adder_label.grid(row=5, column=0, pady=5, padx=5, sticky="w")
@@ -209,16 +218,30 @@ class Settings(ctik.CTkToplevel):
         )
         self.piece_sign_adder_switch.grid(row=5, column=1, pady=5, padx=5, sticky="w")
 
-        #Piece sign column selector
+        # Piece sign column selector
         piece_sign_col_var = ctik.StringVar(value=config["Format"]["pieces_col"])
 
-        self.piece_sign_col_label = sl.MenuItem(self.cus_settings_frame, text="Sloupec kusovníku")
-        self.piece_sign_col_label.grid(row=6, column=0, padx=5, pady=5, sticky='w')
+        self.piece_sign_col_label = sl.MenuItem(
+            self.cus_settings_frame, text="Sloupec kusovníku"
+        )
+        self.piece_sign_col_label.grid(row=6, column=0, padx=5, pady=5, sticky="w")
 
-        self.piece_sign_col_list = ctik.CTkOptionMenu(self.cus_settings_frame, width=60, variable=piece_sign_col_var, values=checkboxes)
-        self.piece_sign_col_list.grid(row=6, column=1, padx=5, pady=5, sticky='w')
+        self.piece_sign_col_list = ctik.CTkOptionMenu(
+            self.cus_settings_frame,
+            width=60,
+            variable=piece_sign_col_var,
+            values=checkboxes,
+        )
+        self.piece_sign_col_list.grid(row=6, column=1, padx=5, pady=5, sticky="w")
 
+        # Row count - setting up amount of rows in the Customers tab
+        self.cells_rows_label = sl.MenuItem(self.cus_settings_frame, text="Počet řádků")
+        self.cells_rows_label.grid(row=7, column=0, padx=5, pady=5, sticky='w')
 
+        self.cell_rows_spinbox = spinbox.Spinbox(self.cus_settings_frame,
+                                                 value=config['Zakaznici']['row_count'])
+        self.cell_rows_spinbox.grid(row=7, column=1, padx=5, pady=5, sticky='w')
+        print(self.cell_rows_spinbox.get())
 
         """"RESERVATION SETTINGS SECTION"""
         """This section is for reservation settings"""
@@ -286,6 +309,7 @@ class Settings(ctik.CTkToplevel):
         data["Format"]["brackets"] = self.bracket_remover_switch.get()
         data["Format"]["pieces"] = self.piece_sign_adder_switch.get()
         data["Format"]["pieces_col"] = self.piece_sign_col_list.get()
+        data["Zakaznici"]["row_count"] = int(self.cell_rows_spinbox.get())
         data["Rezervace"]["until"] = int(self.until_days_slider.get())
 
         sc(data)
