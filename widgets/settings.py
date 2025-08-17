@@ -241,7 +241,15 @@ class Settings(ctik.CTkToplevel):
         self.cell_rows_spinbox = spinbox.Spinbox(self.cus_settings_frame,
                                                  value=config['Zakaznici']['row_count'])
         self.cell_rows_spinbox.grid(row=7, column=1, padx=5, pady=5, sticky='w')
-        print(self.cell_rows_spinbox.get())
+
+        #Column count - setting up the amount of columns in the cell grid
+        self.cells_column_label = sl.MenuItem(self.cus_settings_frame, "Počet sloupců")
+        self.cells_column_label.grid(row=8, column=0, padx=5, pady=5, sticky='w')
+
+        self.cells_column_spinbox = spinbox.Spinbox(self.cus_settings_frame,
+                                                    value=config['Zakaznici']['column_count'])
+        self.cells_column_spinbox.grid(row=8, column=1, padx=5, pady=5, sticky='w')
+
 
         """"RESERVATION SETTINGS SECTION"""
         """This section is for reservation settings"""
@@ -293,6 +301,14 @@ class Settings(ctik.CTkToplevel):
         )
         self.seller_list_button.grid(row=3, column=2, padx=(0, 5), pady=5, sticky="w")
 
+        #Reservation rows amount
+        self.res_rows_lable = sl.MenuItem(self.res_settings_frame, text="Počet řádků")
+        self.res_rows_lable.grid(row=4, column=0, padx=5, pady=5, sticky='w')
+
+        self.res_rows_spinbox = spinbox.Spinbox(self.res_settings_frame,
+                                                value=config['Rezervace']['row_count'])
+        self.res_rows_spinbox.grid(row=4, column=1, padx=5, pady=5, sticky='w')
+
     """General methods and functions of the settings class"""
 
     # This function just closes the settings window
@@ -310,7 +326,9 @@ class Settings(ctik.CTkToplevel):
         data["Format"]["pieces"] = self.piece_sign_adder_switch.get()
         data["Format"]["pieces_col"] = self.piece_sign_col_list.get()
         data["Zakaznici"]["row_count"] = int(self.cell_rows_spinbox.get())
+        data["Zakaznici"]["column_count"] = int(self.cells_column_spinbox.get())
         data["Rezervace"]["until"] = int(self.until_days_slider.get())
+        data["Rezervace"]["row_count"] = int(self.res_rows_spinbox.get())
 
         sc(data)
         self.close_settings()
