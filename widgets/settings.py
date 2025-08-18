@@ -2,6 +2,7 @@
 
 import customtkinter as ctik
 import json, os
+from constants import auc
 
 
 from config import config
@@ -252,6 +253,45 @@ class Settings(ctik.CTkToplevel):
         )
         self.cells_column_spinbox.grid(row=8, column=1, padx=5, pady=5, sticky="w")
 
+        # Preset for checked checkboxes on the startup
+        # Frame for checkboxes
+        self.checkbox_frame = ctik.CTkFrame(
+            self.cus_settings_frame,
+            fg_color="transparent",
+            border_width=1,
+            border_color="black",
+        )
+        self.checkbox_frame.grid(row=9, column=0, columnspan=2, padx=5, pady=5)
+
+        self.checkbox_label = sl.MenuItem(
+            self.checkbox_frame, text="Aktivní sloupce - preset"
+        )
+        self.checkbox_label.grid(row=0, column=0, padx=3, pady=3, columnspan=10)
+
+        self.checkboxes = {}
+        col_col = 0
+        for col in range(config["Zakaznici"]["column_count"]):
+            col_letter = auc[col]
+            self.checkbox = ctik.CTkCheckBox(
+                self.checkbox_frame,
+                text=col_letter,
+                checkbox_width=20,
+                checkbox_height=20,
+                width=20,
+            )
+            if col_col % 5 == 0:
+                col_col = 0
+            self.checkbox.grid(
+                row=int(col / 5) + 1, column=col_col, padx=3, pady=(3, 5)
+            )
+            col_col += 1
+
+            # Adding checkboxes to dict for further manipulation
+            if col_letter not in self.checkboxes:
+                self.checkboxes[col_letter] = self.checkbox
+            if col_letter in config["Zakaznici"]["checked_cols"]:
+                self.checkbox.select()
+
         """"RESERVATION SETTINGS SECTION"""
         """This section is for reservation settings"""
 
@@ -331,9 +371,18 @@ class Settings(ctik.CTkToplevel):
         data["Zakaznici"]["column_count"] = int(self.cells_column_spinbox.get())
         data["Rezervace"]["until"] = int(self.until_days_slider.get())
         data["Rezervace"]["row_count"] = int(self.res_rows_spinbox.get())
+        data["Zakaznici"]["checked_cols"] = self.checkbox_checker()
 
         sc(data)
         self.close_settings()
+
+    # Function for checked checkboxes preset setting
+    def checkbox_checker(self):
+        checkedboxes = []
+        for key in self.checkboxes:
+            if self.checkboxes[key].get() == 1:
+                checkedboxes.append(key)
+        return checkedboxes
 
 
 # This is super necessary
