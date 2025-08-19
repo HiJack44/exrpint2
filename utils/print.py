@@ -23,5 +23,14 @@ def create_txt(text_to_file):
         os.remove(file_for_text)
     with open(file_for_text, "a") as f:
         f.write(text_to_file)
+        open_text_file()
 
     print("Hotovo... asi")
+
+def open_text_file():
+    if platform.system() == "Darwin":
+        subprocess.call(("open", "print_list.txt"))
+    elif platform.system() == "Windows":
+        os.startfile("print_list.txt")
+    else:
+        subprocess.call(("xdg-open", "print_list.txt"))
