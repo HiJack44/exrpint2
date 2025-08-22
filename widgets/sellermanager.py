@@ -117,5 +117,6 @@ class SellerManager(ctik.CTkToplevel):
 def open_seller_manager(parent):
     if parent.sellermanager is None or not parent.sellermanager.winfo_exists():
         parent.sellermanager = SellerManager(parent)
+        parent.sellermanager.focus()
     else:
         parent.sellermanager.focus()

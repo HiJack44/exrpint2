@@ -7,7 +7,6 @@ class Sticker(ctik.CTkLabel):
     def __init__(self, master, text, *args, **kwargs):
         super().__init__(
             master,
-            fg_color="pink",
             text=text,
             width=config["Sticker"]["width"],
             *args,

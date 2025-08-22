@@ -5,7 +5,10 @@ from utils import formatter as f
 from utils import print as p
 from config import config
 
+CURRENT_VERSION = "0.0.2"
+
 ctik.set_default_color_theme("templates/theme_dark.json")
+ctik.set_appearance_mode("dark")
 
 # Main function of the program
 class App(ctik.CTk):
@@ -47,14 +50,14 @@ class App(ctik.CTk):
 
         # Placing frame for customers buttons
         self.cus_button_frame = ctik.CTkFrame(
-            self.tabview.cellfield1, fg_color="lightblue"
+            self.tabview.cellfield1, fg_color='transparent'
         )
         self.cus_button_frame.grid(row=0, column=0, sticky="we", columnspan=10)
         self.cus_button_frame.grid_columnconfigure((0, 1, 2), weight=1)
 
         # Placing frame for buttons for reservations
         self.res_button_frame = ctik.CTkFrame(
-            self.tabview.reserv1, fg_color="lightblue"
+            self.tabview.reserv1, fg_color="transparent"
         )
         self.res_button_frame.grid(row=0, column=0, columnspan=2, sticky="we")
         self.res_button_frame.grid_columnconfigure((0, 1), weight=1)

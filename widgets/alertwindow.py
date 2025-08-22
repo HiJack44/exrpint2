@@ -24,5 +24,6 @@ class AlertWindow(ctik.CTkToplevel):
 def open_alert(parent, title, msg):
     if parent.alert_window is None or not parent.alert_window.winfo_exists():
         parent.alert_window = AlertWindow(parent, title, msg)
+        parent.alert_window.focus_set()
     else:
         parent.alert_window.focus_set()

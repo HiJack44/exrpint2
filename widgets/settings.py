@@ -389,5 +389,6 @@ class Settings(ctik.CTkToplevel):
 def open_settings(parent):
     if parent.settings is None or not parent.settings.winfo_exists():
         parent.settings = Settings(parent)
+        parent.settings.focus()
     else:
         parent.settings.focus()

@@ -20,12 +20,12 @@ class Spinbox(ctik.CTkFrame):
         self.command = command
         self.step_size = step_size
 
-        self.configure(fg_color="lightgrey")
+        #self.configure(fg_color="#9040BF")
 
         self.grid_columnconfigure((0, 2), weight=1)
 
         # Label that displays current number. Get method takes input from this label
-        self.entry = ctik.CTkLabel(self, width=30, fg_color="lightgrey", text=value)
+        self.entry = ctik.CTkLabel(self, width=30, text=value)
         self.entry.grid(row=0, column=1, padx=0, pady=0)
 
         # Substract button substracts number
