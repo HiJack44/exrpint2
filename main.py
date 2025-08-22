@@ -8,7 +8,7 @@ from config import config
 CURRENT_VERSION = "0.0.2"
 
 ctik.set_default_color_theme("templates/theme_dark.json")
-ctik.set_appearance_mode("dark")
+#ctik.set_appearance_mode("light")
 
 # Main function of the program
 class App(ctik.CTk):

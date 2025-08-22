@@ -9,6 +9,7 @@ class Sticker(ctik.CTkLabel):
             master,
             text=text,
             width=config["Sticker"]["width"],
+            fg_color="#AAAAAA",
             *args,
             **kwargs
         )
