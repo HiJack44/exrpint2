@@ -1,14 +1,18 @@
+import json
+
 import customtkinter as ctik
+import requests, zipfile, os, io
 from widgets import stickerframe, tab, sellers, settings
 from utils import events as ev
 from utils import formatter as f
 from utils import print as p
 from config import config
 
-CURRENT_VERSION = "0.0.2"
+APP_VERSION = "1.0.0"
+API_SOURCE = 'https://api.github.com/repos/HiJack44/exrpint2/releases'
 
 ctik.set_default_color_theme("templates/theme_dark.json")
-#ctik.set_appearance_mode("light")
+ctik.set_appearance_mode("dark")
 
 # Main function of the program
 class App(ctik.CTk):
@@ -173,6 +177,29 @@ class App(ctik.CTk):
         app = App()
         app.mainloop()
 
+
+def check_version():
+    try:
+        response = requests.get(API_SOURCE)
+        response = response.json()
+        active_version = response[0]['tag_name'].lstrip('v')
+        if active_version > APP_VERSION:
+            print(f"{active_version} is newer than {APP_VERSION}")
+            update_app(response)
+        else:
+            print("You are on the latest version")
+    except KeyError as e:
+        print(f"Failed to load current version.\n{e}")
+
+def update_app(source):
+    download_url = source[0]["assets"][0]["browser_download_url"]
+    response = requests.get(download_url)
+    with zipfile.ZipFile(io.BytesIO(response.content)) as z:
+        z.extractall()
+
+
+
 if __name__ == "__main__":
+    check_version()
     app = App()
     app.mainloop()
