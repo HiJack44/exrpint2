@@ -12,7 +12,7 @@ APP_VERSION = "1.0.1"
 API_SOURCE = 'https://api.github.com/repos/HiJack44/exrpint2/releases'
 
 ctik.set_default_color_theme("templates/theme_dark.json")
-ctik.set_appearance_mode("dark")
+ctik.set_appearance_mode("system")
 
 # Main function of the program
 class App(ctik.CTk):
