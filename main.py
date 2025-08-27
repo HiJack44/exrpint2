@@ -8,7 +8,7 @@ from utils import formatter as f
 from utils import print as p
 from config import config
 
-APP_VERSION = "1.0.0"
+APP_VERSION = "1.0.1"
 API_SOURCE = 'https://api.github.com/repos/HiJack44/exrpint2/releases'
 
 ctik.set_default_color_theme("templates/theme_dark.json")
