@@ -22,7 +22,7 @@ class App(ctik.CTk):
         # Defining the window
         self.geometry("1250x700")
         self.minsize(1250, 700)
-        self.title("Exprint 2")
+        self.title(f"Exprint 2 v{APP_VERSION}")
 
 
         # Placing top bar
@@ -192,11 +192,13 @@ def check_version():
         print(f"Failed to load current version.\n{e}")
 
 def update_app(source):
-    download_url = source[0]["assets"][0]["browser_download_url"]
-    response = requests.get(download_url)
-    with zipfile.ZipFile(io.BytesIO(response.content)) as z:
-        z.extractall()
-
+    try:
+        download_url = source[0]["assets"][0]["browser_download_url"]
+        response = requests.get(download_url)
+        with zipfile.ZipFile(io.BytesIO(response.content)) as z:
+            z.extractall()
+    except:
+        print("Update failed")
 
 
 if __name__ == "__main__":
