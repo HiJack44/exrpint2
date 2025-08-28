@@ -14,7 +14,7 @@ old_output = sys.stdout
 log_file = open('log.txt', 'w')
 sys.stdout = log_file
 
-APP_VERSION = "0.0.1"
+APP_VERSION = "1.0.2"
 API_SOURCE = 'https://api.github.com/repos/HiJack44/exrpint2/releases'
 
 ctik.set_default_color_theme("templates/theme_dark.json")
