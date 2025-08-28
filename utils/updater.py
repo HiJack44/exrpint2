@@ -3,6 +3,7 @@ import requests, zipfile, os, io
 
 
 def check_update(current_version, api_source):
+    print("Checking for updates...")
     try:
         response = requests.get(api_source)
         response.raise_for_status()
@@ -15,6 +16,8 @@ def check_update(current_version, api_source):
             print(f"New version available: {latest_version}")
             print(f"Attempting download")
             download_update(response)
+        else:
+            print("Your program is up-to-date")
 
 def download_update(source):
     print("Preparing download...")
