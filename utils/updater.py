@@ -1,7 +1,7 @@
 # This set of utilities is for updating the app
-import requests, zipfile, os, io
+import requests, zipfile, os, io, pathlib
 
-
+# This function checks if update is available
 def check_update(current_version, api_source):
     print("Checking for updates...")
     try:
@@ -21,6 +21,8 @@ def check_update(current_version, api_source):
 
 def download_update(source):
     print("Preparing download...")
+    cwd = pathlib.Path.cwd()
+    print(f"Pat.cwd: {cwd}")
     try:
         print(f"Fetching download link from source")
         download_url = source[0]['assets'][0]["browser_download_url"]
@@ -41,7 +43,7 @@ def download_update(source):
                     safe_path = os.getcwd()
                     z.extractall(safe_path)
                     print("Files extracted.")
-            except zipfile.BadZipfile as e:
+            except zipfile.BadZipFile as e:
                 print(f"Bad zipfile: {e}")
             except PermissionError:
                 print("Permission Error: No writing permission")
