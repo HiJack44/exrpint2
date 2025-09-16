@@ -2,10 +2,12 @@ Checking for updates...
 New version available: 1.0.3
 Attempting download
 Preparing download...
-Pat.cwd: /home/petr/Code/exprint2
+Path.cwd.resolve: /home/petr/Code/exprint2
 Fetching download link from source
 Download URL: https://github.com/HiJack44/exrpint2/releases/download/v1.0.3/exprint2v1.0.3.zip
 Requesting download URL: https://github.com/HiJack44/exrpint2/releases/download/v1.0.3/exprint2v1.0.3.zip
 Download link is alive. Attempting extraction
-Files extracted.
+Testing OS:
+OS not Windows...thank god
+Files extracted to /home/petr/Code/exprint2
 Update complete

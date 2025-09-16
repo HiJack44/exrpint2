@@ -1,5 +1,6 @@
 # This set of utilities is for updating the app
-import requests, zipfile, os, io, pathlib
+import requests, zipfile, io, sys, platform
+from pathlib import Path
 
 # This function checks if update is available
 def check_update(current_version, api_source):
@@ -19,10 +20,11 @@ def check_update(current_version, api_source):
         else:
             print("Your program is up-to-date")
 
+# Function that downloads update
 def download_update(source):
     print("Preparing download...")
-    cwd = pathlib.Path.cwd()
-    print(f"Pat.cwd: {cwd}")
+    cwd = Path()
+    print(f"Path.cwd.resolve: {cwd.resolve()}")
     try:
         print(f"Fetching download link from source")
         download_url = source[0]['assets'][0]["browser_download_url"]
@@ -40,9 +42,15 @@ def download_update(source):
             print("Download link is alive. Attempting extraction")
             try:
                 with zipfile.ZipFile(io.BytesIO(response.content)) as z:
-                    safe_path = os.getcwd()
+                    print("Testing OS:")
+                    if platform.system() == "Windows":
+                        print("OS is Windows")
+                        safe_path = cwd(sys.executable).resolve()
+                    else:
+                        print("OS not Windows...thank god")
+                        safe_path = cwd.resolve()
                     z.extractall(safe_path)
-                    print("Files extracted.")
+                    print(f"Files extracted to {safe_path}")
             except zipfile.BadZipFile as e:
                 print(f"Bad zipfile: {e}")
             except PermissionError:
