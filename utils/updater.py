@@ -45,10 +45,18 @@ def download_update(source):
                     print("Testing OS:")
                     if platform.system() == "Windows":
                         print("OS is Windows")
-                        safe_path = cwd(sys.executable).resolve()
+                        if getattr(sys, "frozen", False):
+                            print("Sys not frozen. Getting safe_path")
+                            safe_path = Path(sys.executable).resolve().parent
+                            print(f"safe_path: {safe_path}")
+                        else:
+                            print("Sys frozen. Getting safe_path")
+                            safe_path = Path(__file__).resolve().parent
+                            print(f"safe_path: {safe_path}")
                     else:
                         print("OS not Windows...thank god")
                         safe_path = cwd.resolve()
+                    print(f"Extracting to {safe_path}")
                     z.extractall(safe_path)
                     print(f"Files extracted to {safe_path}")
             except zipfile.BadZipFile as e:
