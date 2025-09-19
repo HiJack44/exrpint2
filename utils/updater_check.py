@@ -12,13 +12,21 @@ def check_update(current_version, api_source):
         latest_version = response[0]['tag_name'].lstrip('v')
     except KeyError as e:
         print(f"{e} - Failed to load latest version")
+    except requests.exceptions.ConnectionError as e:
+        print(f"No internet connection. {e}")
+    except requests.exceptions.Timeout as e:
+        print(f"Timeout error. {e}")
+    except requests.exceptions.RequestException as e:
+        print(f"Something went wrong. {e}")
     else:
         if latest_version > current_version:
             print(f"New version available: {latest_version}")
             print(f"Attempting download")
-            download_update(response)
+            #download_update(response)
+            return True
         else:
             print("Your program is up-to-date")
+            return False
 
 # Function that downloads update
 def download_update(source):

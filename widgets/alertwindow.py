@@ -3,11 +3,12 @@ import customtkinter as ctik
 
 
 class AlertWindow(ctik.CTkToplevel):
-    def __init__(self, parent, title, msg, *args, **kwargs):
+    def __init__(self, parent, title, msg,update_st: bool=False, *args, **kwargs):
         super().__init__(parent, *args, **kwargs)
 
         self.geometry("200x300")
         self.title = title
+        self.update_st = update_st
 
         self.alert = ctik.CTkLabel(self, width=200, text=msg, wraplength=150)
         self.alert.pack(pady=10, padx=10)
@@ -17,13 +18,22 @@ class AlertWindow(ctik.CTkToplevel):
         )
         self.close_button.pack(pady=5, padx=5)
 
+        self.update_button = ctik.CTkButton(self, text="Aktualizovat", command=parent.quit_app)
+
+        if update_st == True:
+            print("Update available")
+            self.update_button.pack(pady=5, padx=5)
+
+
+
+
     def close_alert_window(self):
         self.destroy()
 
 
-def open_alert(parent, title, msg):
+def open_alert(parent, title, msg, update_st: bool = False):
     if parent.alert_window is None or not parent.alert_window.winfo_exists():
-        parent.alert_window = AlertWindow(parent, title, msg)
+        parent.alert_window = AlertWindow(parent, title, msg, update_st)
         parent.alert_window.focus_set()
     else:
         parent.alert_window.focus_set()

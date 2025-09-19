@@ -3,10 +3,11 @@ import json
 import customtkinter as ctik
 import sys
 from widgets import stickerframe, tab, sellers, settings
+from widgets import alertwindow as alwi
 from utils import events as ev
 from utils import formatter as f
 from utils import print as p
-from utils import updater as u
+from utils import updater_check as u
 from config import config
 
 old_output = sys.stdout
@@ -21,7 +22,7 @@ ctik.set_appearance_mode("system")
 
 # Main function of the program
 class App(ctik.CTk):
-    def __init__(self):
+    def __init__(self, update):
         super().__init__()
 
         # Defining the window
@@ -176,14 +177,24 @@ class App(ctik.CTk):
             columnspan=config["Button_bar"]["columnspan"],
             sticky="w",
         )
+        self.alert_window = None
+        if update:
+            alwi.open_alert(self,
+                            "Nová aktualizace",
+                            f"K dispozici je nová verze.\n"
+                            f"Přejete si aktualizovat nyní?",
+                            True)
 
     def restart(self):
         self.destroy()
         app = App()
         app.mainloop()
 
+    def quit_app(self):
+        self.destroy()
+
 
 if __name__ == "__main__":
-    u.check_update(APP_VERSION, API_SOURCE)
-    app = App()
+    update = u.check_update(APP_VERSION, API_SOURCE)
+    app = App(update)
     app.mainloop()

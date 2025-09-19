@@ -1,14 +1,2 @@
 Checking for updates...
-New version available: 1.0.3
-Attempting download
-Preparing download...
-Path.cwd.resolve: /home/petr/Code/exprint2
-Fetching download link from source
-Download URL: https://github.com/HiJack44/exrpint2/releases/download/v1.0.3/exprint2v1.0.3.zip
-Requesting download URL: https://github.com/HiJack44/exrpint2/releases/download/v1.0.3/exprint2v1.0.3.zip
-Download link is alive. Attempting extraction
-Testing OS:
-OS not Windows...thank god
-Extracting to /home/petr/Code/exprint2
-Files extracted to /home/petr/Code/exprint2
-Update complete
+No internet connection. HTTPSConnectionPool(host='api.github.com', port=443): Max retries exceeded with url: /repos/HiJack44/exrpint2/releases (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x7cfc9ab88470>: Failed to resolve 'api.github.com' ([Errno -2] Name or service not known)"))
