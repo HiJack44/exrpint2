@@ -1,5 +1,6 @@
 import json
 import os.path
+import subprocess
 
 import customtkinter as ctik
 import sys
@@ -194,6 +195,7 @@ class App(ctik.CTk):
         app.mainloop()
 
     def quit_app(self):
+        subprocess.run(["python3", "support/updater.py", API_SOURCE])
         self.destroy()
 
 

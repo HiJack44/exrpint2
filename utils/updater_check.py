@@ -21,7 +21,7 @@ def check_update(current_version, api_source):
     else:
         if latest_version > current_version:
             print(f"New version available: {latest_version}")
-            print(f"Attempting download")
+            #print(f"Attempting download")
             #download_update(response)
             return True
         else:
