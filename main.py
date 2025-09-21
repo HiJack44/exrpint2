@@ -1,4 +1,5 @@
 import json
+import os.path
 
 import customtkinter as ctik
 import sys
@@ -9,9 +10,11 @@ from utils import formatter as f
 from utils import print as p
 from utils import updater_check as u
 from config import config
+from pathlib import Path
 
 old_output = sys.stdout
-log_file = open('log.txt', 'w')
+log_path = Path("support/log.txt")
+log_file = open(log_path, 'w')
 sys.stdout = log_file
 
 APP_VERSION = "1.0.2"
