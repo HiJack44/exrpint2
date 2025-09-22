@@ -18,7 +18,7 @@ class AlertWindow(ctik.CTkToplevel):
         )
         self.close_button.pack(pady=5, padx=5)
 
-        self.update_button = ctik.CTkButton(self, text="Aktualizovat", command=parent.quit_app)
+        self.update_button = ctik.CTkButton(self, text="Aktualizovat", command=parent.update_app)
 
         if update_st == True:
             print("Update available")

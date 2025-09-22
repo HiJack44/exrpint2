@@ -194,8 +194,8 @@ class App(ctik.CTk):
         app = App()
         app.mainloop()
 
-    def quit_app(self):
-        subprocess.run(["python3", "support/updater.py", API_SOURCE])
+    def update_app(self):
+        subprocess.Popen(["python3", "support/updater.py", API_SOURCE])
         self.destroy()
 
 

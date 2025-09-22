@@ -51,7 +51,7 @@
     "fg_color": ["#939BA2", "#9A9A9A"],
     "progress_color": ["#9040BF", "#9040BF"],
     "button_color": ["gray36", "#9A9A9A"],
-    "button_hover_color": ["#9444BF", "gray100"],
+    "button_hover_color": ["9444BF", "gray100"],
     "text_color": ["gray14", "gray84"],
     "text_color_disabled": ["gray60", "gray45"]
   },

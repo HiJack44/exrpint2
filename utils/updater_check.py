@@ -27,7 +27,7 @@ def check_update(current_version, api_source):
         else:
             print("Your program is up-to-date")
             return False
-
+"""
 # Function that downloads update
 def download_update(source):
     print("Preparing download...")
@@ -75,4 +75,4 @@ def download_update(source):
                 print(f"OS error has occured: {e}")
             else:
                 print(f"Update complete")
-
+"""
