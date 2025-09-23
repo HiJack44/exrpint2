@@ -64,7 +64,7 @@ def deploy_files(zip_file):
         print("System is Windows")
         if getattr(sys, "frozen", False):
             print("Sys not frozen. Getting safe_path")
-            safe_path = Path(sys.executable).resolve()
+            safe_path = Path(sys.executable).resolve().parent
             print(f"Safe_path: {safe_path}")
         else:
             print("Sys not frozen. Getting safe_path")
