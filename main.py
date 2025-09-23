@@ -1,5 +1,6 @@
 import json
 import os.path
+import platform
 import subprocess
 
 import customtkinter as ctik
@@ -13,14 +14,17 @@ from utils import updater_check as u
 from config import config
 from pathlib import Path
 
+# Logging set tp support/log.txt
 old_output = sys.stdout
 log_path = Path("support/log.txt")
 log_file = open(log_path, 'w')
 sys.stdout = log_file
 
+# App version and source for updates
 APP_VERSION = "1.0.2"
 API_SOURCE = 'https://api.github.com/repos/HiJack44/exrpint2/releases'
 
+# Theme definition
 ctik.set_default_color_theme("templates/theme_dark.json")
 ctik.set_appearance_mode("system")
 
@@ -189,13 +193,31 @@ class App(ctik.CTk):
                             f"Přejete si aktualizovat nyní?",
                             True)
 
+    # Restarter function used mostly by reload button
     def restart(self):
         self.destroy()
         app = App()
         app.mainloop()
 
+    # Update inicialization that turns on updater and closes the app
     def update_app(self):
-        subprocess.Popen(["python3", "support/updater.py", API_SOURCE])
+        print("Starting update app")
+        print("Checking OS")
+        if platform.system() == "Windows":
+            print("System is Windows")
+            if getattr(sys, "frozen", False):
+                print("App not frozen. Opening updater.exe")
+                subprocess.Popen(["support/updater.exe", API_SOURCE])
+            else:
+                print("OS is windows, app frozen. Opening updater.py")
+                subprocess.Popen(["python3", "support/updater.py", API_SOURCE])
+        else:
+            print("Non windows os. Opening updater.py")
+            subprocess.Popen(["python3", "support/updater.py", API_SOURCE])
+            self.quit_app()
+
+    # Now I am become death...
+    def quit_app(self):
         self.destroy()
 
 

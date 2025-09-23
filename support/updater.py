@@ -74,6 +74,7 @@ def deploy_files(zip_file):
         print("System is not Windows")
         safe_path = Path().resolve()
     print(f"Extracting files to {safe_path}")
+
     # File extraction into target folders
     try:
         print(f"Preparing to extract {zipfile}")
@@ -95,13 +96,16 @@ def start_app(path):
     if platform.system() == "Windows":
         if getattr(sys, "frozen", False):
             print("Running the exprint2.exe file")
-            subprocess.run(str(path/exprint2.exe))
+            subprocess.Popen(str(path/exprint2.exe))
         else:
             print("Running the python file")
-            subprocess.run(["python3", "main.py"])
+            subprocess.Popen(["python3", "main.py"])
     else:
         print("Running non windows python file")
-        subprocess.run(["python3", "main.py"])
+        subprocess.Popen(["python3", "main.py"])
+
+def config_check():
+    ...
 
 if __name__ == "__main__":
     check_source(SOURCE_URL)
