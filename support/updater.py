@@ -68,7 +68,7 @@ def deploy_files(zip_file):
             print(f"Safe_path: {safe_path}")
         else:
             print("Sys not frozen. Getting safe_path")
-            safe_path = Path(__file__).resolve()
+            safe_path = Path(__file__).resolve().parent
             print(f"Safe_path {safe_path}")
     else:
         print("System is not Windows")

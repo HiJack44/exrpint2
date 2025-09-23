@@ -208,9 +208,11 @@ class App(ctik.CTk):
             if getattr(sys, "frozen", False):
                 print("App not frozen. Opening updater.exe")
                 subprocess.Popen(["support/updater.exe", API_SOURCE])
+                self.quit_app()
             else:
                 print("OS is windows, app frozen. Opening updater.py")
                 subprocess.Popen(["python3", "support/updater.py", API_SOURCE])
+                self.quit_app()
         else:
             print("Non windows os. Opening updater.py")
             subprocess.Popen(["python3", "support/updater.py", API_SOURCE])
