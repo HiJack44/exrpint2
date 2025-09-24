@@ -95,7 +95,7 @@ def start_app(path):
     if platform.system() == "Windows":
         if getattr(sys, "frozen", False):
             print("Running the exprint2.exe file")
-            subprocess.Popen(str(path/exprint2.exe))
+            subprocess.Popen(str(path/"exprint2.exe"))
         else:
             print("Running the python file")
             subprocess.Popen(["python3", "main.py"])
