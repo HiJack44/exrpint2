@@ -2,7 +2,6 @@
 # separate program to download and deploy new version of the
 # app.
 import subprocess
-
 import requests, zipfile, platform, sys, io
 from pathlib import Path
 
@@ -64,11 +63,11 @@ def deploy_files(zip_file):
         print("System is Windows")
         if getattr(sys, "frozen", False):
             print("Sys not frozen. Getting safe_path")
-            safe_path = Path(sys.executable).resolve().parent
+            safe_path = Path(sys.executable).resolve().parent.parent
             print(f"Safe_path: {safe_path}")
         else:
             print("Sys not frozen. Getting safe_path")
-            safe_path = Path(__file__).resolve().parent
+            safe_path = Path(__file__).resolve().parent.parent
             print(f"Safe_path {safe_path}")
     else:
         print("System is not Windows")
