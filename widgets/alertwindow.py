@@ -9,6 +9,7 @@ class AlertWindow(ctik.CTkToplevel):
         self.geometry("200x300")
         self.title = title
         self.update_st = update_st
+        self.attributes("-topmost", True)
 
         self.alert = ctik.CTkLabel(self, width=200, text=msg, wraplength=150)
         self.alert.pack(pady=10, padx=10)
@@ -37,3 +38,4 @@ def open_alert(parent, title, msg, update_st: bool = False):
         parent.alert_window.focus_set()
     else:
         parent.alert_window.focus_set()
+

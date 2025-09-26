@@ -22,6 +22,7 @@ class Settings(ctik.CTkToplevel):
         self.title("Nastavení")
         self.grid_columnconfigure((0, 1), weight=1)
         self.grid_rowconfigure(1, weight=1)
+        self.attributes("-topmost", True)
 
         data = config
         cellfieldpath = parent.tabview.cellfield1

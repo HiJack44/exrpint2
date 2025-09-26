@@ -17,6 +17,8 @@ class SellerManager(ctik.CTkToplevel):
         self.title("Přidat nebo odebrat prodejce")
         self.maxsize(width=220, height=340)
 
+        self.attributes("-topmost", True)
+
         data = config
 
         self.seller_manager_label = ctik.CTkLabel(
