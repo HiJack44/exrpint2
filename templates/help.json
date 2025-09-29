@@ -1,0 +1,15 @@
+{
+  "O aplikaci": {
+    "text": "Exprint2 je aplikace, která slouží k formátovaní textu určenému k tisku na etikety.",
+    "pic": "about.jpg"
+  },
+  "Zákazníci": {
+    "text": "Tabulka zákazníci bla bla bla",
+    "pic": "customers.jpg"
+  },
+  "Rezervace": {
+    "text": "bla bla bla",
+    "pic": "reserv.jpg"
+  }
+
+}

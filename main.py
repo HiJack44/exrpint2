@@ -5,7 +5,7 @@ import subprocess
 
 import customtkinter as ctik
 import sys
-from widgets import stickerframe, tab, sellers, settings
+from widgets import stickerframe, tab, sellers, settings, help
 from widgets import alertwindow as alwi
 from utils import events as ev
 from utils import formatter as f
@@ -54,9 +54,19 @@ class App(ctik.CTk):
         )
         self.settings_button.grid(row=0, column=0, padx=5, pady=5)
 
+        # PLacing Help button and Nonefying help window
+        self.help_window = None
+        self.help_button = ctik.CTkButton(
+            self.top_bar,
+            text="Nápověda",
+            fg_color="transparent",
+            command=lambda parent=self: help.open_help(parent)
+        )
+        self.help_button.grid(row=0, column=1, padx=5,pady=5, sticky='w')
+
         #Placing reload button
         self.reload_button = ctik.CTkButton(self.top_bar, text = "Reload", fg_color='transparent', command=self.restart)
-        self.reload_button.grid(row=0, column=1, padx=5, pady=5, sticky='e')
+        self.reload_button.grid(row=0, column=2, padx=5, pady=5, sticky='e')
 
         # Placing the tabview with cellframes
         self.tabview = tab.Tab(self)
