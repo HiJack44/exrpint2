@@ -206,7 +206,7 @@ class App(ctik.CTk):
     # Restarter function used mostly by reload button
     def restart(self):
         self.destroy()
-        app = App()
+        app = App(update)
         app.mainloop()
 
     # Update inicialization that turns on updater and closes the app

@@ -3,6 +3,7 @@
 # function of the app
 
 import customtkinter as ctik
+from pathlib import Path
 
 class HelpWindow(ctik.CTkToplevel):
     def __init__(self, parent):
@@ -12,7 +13,8 @@ class HelpWindow(ctik.CTkToplevel):
         self.title("Nápověda")
         self.attributes("-topmost", True)
 
-
+    data_path = Path().joinpath("templates", "help.py")
+    print(data_path)
 
 
 
