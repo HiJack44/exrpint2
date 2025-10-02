@@ -6,6 +6,13 @@ class AlertWindow(ctik.CTkToplevel):
     def __init__(self, parent, title, msg,update_st: bool=False, *args, **kwargs):
         super().__init__(parent, *args, **kwargs)
 
+        """
+        This is the general alert window. 
+        It gets the parent module as a parametr and the info 
+        if it's the update alert.
+        It's a mess on windows so there are methods to keep it on top.  
+        """
+
         self.geometry("200x300")
         self.title = title
         self.update_st = update_st
@@ -24,8 +31,6 @@ class AlertWindow(ctik.CTkToplevel):
         if update_st == True:
             print("Update available")
             self.update_button.pack(pady=5, padx=5)
-
-
 
 
     def close_alert_window(self):

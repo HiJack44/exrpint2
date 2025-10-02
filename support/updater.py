@@ -17,6 +17,12 @@ SOURCE_URL = sys.argv[1]
 
 # This method is checking the source url
 def check_source(source_url):
+    """
+
+    :param source_url: The source of the update zipfile
+    :return: It starts download function if everything is ok
+    """
+
     print(f"Source url: {source_url}")
     print(f"Requesting response")
     try:
@@ -43,6 +49,11 @@ def check_source(source_url):
 
 # This function will download the zipfile from the target URL
 def download_update(url):
+    """
+
+    :param url: It gets the download URL
+    :return: It starts the deployment of the downladed zipfile
+    """
     print(f"Download url in download_update:{url}")
     try:
         response = requests.get(url, timeout=10)
@@ -55,6 +66,12 @@ def download_update(url):
 
 # This function is managing file extraction and replacement
 def deploy_files(zip_file):
+    """
+
+    :param zip_file: Actually downloads the zipfile from source
+    :return: Testing the OS and overwriting the existing files.
+    Saving the new files on the disk. Calling the main app
+    """
     print(f"Preparing to deploy file from {zip_file}")
 
     # OS check and exe check for Windows
@@ -90,6 +107,11 @@ def deploy_files(zip_file):
         start_app(safe_path)
 
 def start_app(path):
+    """
+
+    :param path: Path to the main app executable
+    :return: Starts the main app
+    """
     print("Restarting the main app")
     print(f"Path to main folder: {path}")
     if platform.system() == "Windows":

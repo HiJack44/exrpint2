@@ -21,7 +21,7 @@ log_file = open(log_path, 'w')
 sys.stdout = log_file
 
 # App version and source for updates
-APP_VERSION = "1.1.0"
+APP_VERSION = "1.1.1"
 API_SOURCE = 'https://api.github.com/repos/HiJack44/exrpint2/releases'
 
 # Theme definition
