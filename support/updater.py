@@ -1,6 +1,7 @@
 # This is the updater for exprint2. It will be run as
 # separate program to download and deploy new version of the
 # app.
+import json
 import subprocess
 import requests, zipfile, platform, sys, io
 from pathlib import Path
@@ -126,7 +127,39 @@ def start_app(path):
         subprocess.Popen(["python3", "main.py"])
 
 def config_check():
-    ...
+    main_path = Path().resolve() # Path to main folder
+    print(f"Main path: {main_path}")
+    templates_path = main_path/"templates" # Path to templates
+    print(f"Templates path: {templates_path}")
+    if templates_path/"config.json" and templates_path/"new_config.json":
+        print(f"Config.json and new_config.json in {templates_path}")
+        #Loading old config data
+        with open(templates_path/"config.json", 'r', encoding='utf-8') as oc:
+            old_config = json.load(oc)
+        # Loading new config data
+        with open(templates_path/"new_config.json", 'r', encoding='utf-8') as nc:
+            new_config = json.load(nc)
+        # Comparing files and adding new data to old config data
+        for key in new_config:
+            print(f"Loading new_config key: {key}")
+            if key not in old_config:
+                print(f"Adding {key} to old_config")
+                old_config[key] = new_config[key]
+        print(old_config, templates_path)
+        write_config_changes(old_config,templates_path)
+
+def write_config_changes(config_data, templates):
+    """
+
+    :param config_data: New data for old config
+    :return: rewrites the config.json file
+    :param templates: Templates folder with config.json
+    """
+    with open(templates/"config.json", 'w', encoding='utf-8') as c:
+        print(f"Dumping data to {templates}")
+        json.dump(config_data,c,indent=2)
+
 
 if __name__ == "__main__":
-    check_source(SOURCE_URL)
+    #check_source(SOURCE_URL)
+    config_check()

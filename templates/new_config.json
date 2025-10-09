@@ -50,16 +50,11 @@
     "padx": 5,
     "pady": 5,
     "sticky": "w",
-    "columnspan": 1,
-    "delete": "later"
+    "columnspan": 1
   },
   "New things": {
     "new1": 34,
     "new2": "Pes",
-    "new3": [
-      "Pole",
-      "Louky",
-      "D\u016fm"
-    ]
+    "new3": ["Pole", "Louky", "Dům"]
   }
 }

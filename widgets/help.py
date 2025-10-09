@@ -5,12 +5,13 @@ import json
 
 import customtkinter as ctik
 from pathlib import Path
+from PIL import Image
 
 class HelpWindow(ctik.CTkToplevel):
     def __init__(self, parent):
         super().__init__(parent)
 
-        self.geometry("700x700")
+        self.geometry("900x700")
         self.title("Nápověda")
         self.attributes("-topmost", True)
         self.grid_columnconfigure(1, weight=1)
@@ -24,6 +25,7 @@ class HelpWindow(ctik.CTkToplevel):
         self.topic_frame = ctik.CTkFrame(self)
         self.topic_frame.grid(row=0, column=1)
         self.topic_frame.grid_columnconfigure(0, weight=1)
+        self.topic_frame.grid_rowconfigure((0,1,2), weight=1)
 
         # Fetching data from help.json
         data_path = Path().joinpath("templates", "help.json")
@@ -34,9 +36,23 @@ class HelpWindow(ctik.CTkToplevel):
         #Placing the default header
         self.help_header = ctik.CTkLabel(self.topic_frame, text=next(iter(self.helper_data)), font=("Roboto", 40))
         self.help_header.grid(row=0, column=0)
+
         # Placing first label. Default is About page
-        self.help_page = ctik.CTkLabel(self.topic_frame, text=self.helper_data["O aplikaci"]["text"])
+        self.help_page = ctik.CTkLabel(self.topic_frame,
+                                       text=self.helper_data["O aplikaci"]["text"],
+                                       wraplength=640
+                                       )
         self.help_page.grid(row=1, column=0)
+
+        # Placing first image
+        home_path = Path().resolve()
+        img_folder_path = home_path/"img"
+        self.help_image = ctik.CTkImage(dark_image=Image.open(img_folder_path/"about.jpg"),
+                                        size=(640,480))
+        self.help_image_label = ctik.CTkLabel(self.topic_frame,text="", image=self.help_image)
+        self.help_image_label.grid(row=2, column=0)
+
+
 
         # Defining menu buttons
         for i, key in enumerate(self.helper_data):
@@ -44,16 +60,19 @@ class HelpWindow(ctik.CTkToplevel):
             print(self.helper_data[key]["text"])
             self.topic_button = ctik.CTkButton(self.menu_frame,
                                           text=key,
-                                          command=lambda master=self, item=key: load_topic(master,item))
+                                          command=lambda master=self, item=key, img_folder=img_folder_path: load_topic(master,item, img_folder))
             self.topic_button.grid(row=i, column=0, sticky="w")
 
-def load_topic(master,topic):
+# This function switches the topic
+def load_topic(master,topic, img_folder):
     """
     :param topic: The text value from the topic in helper
-    :return: text value
+    :return: change of text of the topic header and text
     """
     master.help_header.configure(text=topic)
     master.help_page.configure(text=master.helper_data[topic]["text"])
+    new_pic = img_folder/master.helper_data[topic]["pic"]
+    master.help_image.configure(dark_image=Image.open(new_pic))
 
 
 

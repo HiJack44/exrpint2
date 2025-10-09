@@ -4,11 +4,11 @@
     "pic": "about.jpg"
   },
   "Zákazníci": {
-    "text": "Tabulka zákazníci bla bla bla",
+    "text": "Tabulka zákazníci slouží k formátovnání dat zákznických objednávek. Data získáme zkopírováním příslušných řádků z tabulkového procesoru (Excel, LOCalc, atd.). \nSloupců i řádků může být více, než kolik je buňěk v tabulce aplikace. \nData mimo hranice tabulky budou ignorována.\n\n",
     "pic": "customers.jpg"
   },
   "Rezervace": {
-    "text": "bla bla bla",
+    "text": "Tabulka rezervace slouží k formátování zákaznických rezervací, které chodí emailem.\nPříchozí rezervaci označíme od slova \"Odběratel\" až k času rezervace.  ",
     "pic": "reserv.jpg"
   }
 
