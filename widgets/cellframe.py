@@ -66,6 +66,7 @@ class Cellframe(ctik.CTkScrollableFrame):
                 # Binding the keys to functions
                 downkeys = ["<Return>", "<Down>", "KP_Enter"]
                 rightkeys = ["<Right>", "<Tab>"]
+                pastekeys = ["<Control-v>", "<Control-V>"]
 
                 # Down movement
                 for key in downkeys:
@@ -101,15 +102,16 @@ class Cellframe(ctik.CTkScrollableFrame):
                 # Copy ctrl+c keys binding
                 self.cells[col_letter][row].bind("<Control-c>", evn.custom_copy)
                 # Paste ctrl+v keys binding
-                try:
-                    self.cells[col_letter][row].bind(
-                        "<Control-v>",
-                        lambda event, master=self, col=col, row=row: evn.paste_data_to_cells(
-                            event, master, col, row
-                        ),
-                    )
-                except:
-                    print("Cant control v")
+                for key in pastekeys:
+                    try:
+                        self.cells[col_letter][row].bind(
+                            key,
+                            lambda event, master=self, col=col, row=row: evn.paste_data_to_cells(
+                                event, master, col, row
+                            )
+                        )
+                    except:
+                        print("Cant control v")
 
                 row += 1
             col += 1
