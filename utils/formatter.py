@@ -46,7 +46,7 @@ def format_master(checkedboxes, master, submaster):
 def get_checked_cols(checkedboxes, master):
     if len(checkedboxes) != config["Format"]["line_count"]:
         error_msg = f"Nesprávný počet sloupců!\nPočet sloupců musí být přesně {config['Format']['line_count']}"
-        line_count_error = alwi.open_alert(master, "Nesprávný počet sloupců", error_msg)
+        line_count_error = alwi.open_alert(master, "Nesprávný počet sloupců", error_msg, update_st=False)
         raise IndexError
     cells = master.cells
     cells_to_format = {}

@@ -2,9 +2,9 @@ import json
 import os.path
 import platform
 import subprocess
-
 import customtkinter as ctik
 import sys
+from datetime import datetime
 from widgets import stickerframe, tab, sellers, settings, help
 from widgets import alertwindow as alwi
 from utils import events as ev
@@ -14,19 +14,27 @@ from utils import updater_check as u
 from config import config
 from pathlib import Path
 
+_print = print
+
+
+def print(*args, **kwargs):
+    _print("[%s]" % (datetime.now()), *args, **kwargs)
+
+
 # Logging set tp support/log.txt
 old_output = sys.stdout
 log_path = Path("support/log.txt")
-log_file = open(log_path, 'w')
+log_file = open(log_path, "w")
 sys.stdout = log_file
 
 # App version and source for updates
-APP_VERSION = "1.1.0"
-API_SOURCE = 'https://api.github.com/repos/HiJack44/exrpint2/releases'
+APP_VERSION = "1.5.0"
+API_SOURCE = "https://api.github.com/repos/HiJack44/exrpint2/releases"
 
 # Theme definition
 ctik.set_default_color_theme("templates/theme_dark.json")
 ctik.set_appearance_mode("system")
+
 
 # Main function of the program
 class App(ctik.CTk):
@@ -37,7 +45,6 @@ class App(ctik.CTk):
         self.geometry("1250x700")
         self.minsize(1250, 700)
         self.title(f"Exprint 2 v{APP_VERSION}")
-
 
         # Placing top bar
         self.top_bar = ctik.CTkFrame(self, height=20, corner_radius=0)
@@ -50,7 +57,7 @@ class App(ctik.CTk):
             self.top_bar,
             text="Nastavení",
             fg_color="transparent",
-            command=lambda parent=self: settings.open_settings(parent)
+            command=lambda parent=self: settings.open_settings(parent),
         )
         self.settings_button.grid(row=0, column=0, padx=5, pady=5)
 
@@ -60,13 +67,15 @@ class App(ctik.CTk):
             self.top_bar,
             text="Nápověda",
             fg_color="transparent",
-            command=lambda parent=self: help.open_help(parent)
+            command=lambda parent=self: help.open_help(parent),
         )
-        self.help_button.grid(row=0, column=1, padx=5,pady=5, sticky='w')
+        self.help_button.grid(row=0, column=1, padx=5, pady=5, sticky="w")
 
-        #Placing reload button
-        self.reload_button = ctik.CTkButton(self.top_bar, text = "Reload", fg_color='transparent', command=self.restart)
-        self.reload_button.grid(row=0, column=2, padx=5, pady=5, sticky='e')
+        # Placing reload button
+        self.reload_button = ctik.CTkButton(
+            self.top_bar, text="Reload", fg_color="transparent", command=self.restart
+        )
+        self.reload_button.grid(row=0, column=2, padx=5, pady=5, sticky="e")
 
         # Placing the tabview with cellframes
         self.tabview = tab.Tab(self)
@@ -74,11 +83,11 @@ class App(ctik.CTk):
 
         # Placing stickerframe which will be displaying formated stickers
         self.stickerframe = stickerframe.Stickerframe(self, width=280, height=600)
-        self.stickerframe.grid(row=1, column=1, padx=5, pady=(20,0), sticky="nsew")
+        self.stickerframe.grid(row=1, column=1, padx=5, pady=(20, 0), sticky="nsew")
 
         # Placing frame for customers buttons
         self.cus_button_frame = ctik.CTkFrame(
-            self.tabview.cellfield1, fg_color='transparent'
+            self.tabview.cellfield1, fg_color="transparent"
         )
         self.cus_button_frame.grid(row=0, column=0, sticky="we", columnspan=10)
         self.cus_button_frame.grid_columnconfigure((0, 1, 2), weight=1)
@@ -195,13 +204,17 @@ class App(ctik.CTk):
             columnspan=config["Button_bar"]["columnspan"],
             sticky="w",
         )
+        # Nonefying update window
         self.alert_window = None
         if update:
-            alwi.open_alert(self,
-                            "Nová aktualizace",
-                            f"K dispozici je nová verze.\n"
-                            f"Přejete si aktualizovat nyní?",
-                            True)
+            alwi.open_alert(
+                self,
+                "Nová aktualizace",
+                f"K dispozici je nová verze.\n" f"Přejete si aktualizovat nyní?",
+                True,
+            )
+        else:
+            updater_cleanup()
 
     # Restarter function used mostly by reload button
     def restart(self):
@@ -209,7 +222,7 @@ class App(ctik.CTk):
         app = App(update)
         app.mainloop()
 
-    # Update inicialization that turns on updater and closes the app
+    # Update initialization that turns on updater and closes the app
     def update_app(self):
         print("Starting update app")
         print("Checking OS")
@@ -231,6 +244,45 @@ class App(ctik.CTk):
     # Now I am become death...
     def quit_app(self):
         self.destroy()
+
+
+# Updater clean function, that removes old updater and renames the new one
+def updater_cleanup():
+    if "support/new_updater.exe":
+        print("New_updater in support")
+        try:
+            """
+            renaming the current updater from updater.exe to old_updater.exe for backup
+            if update will fail in the process
+            """
+            print("Renaming old updater")
+            current_updater = "support/updater.exe"
+            current_updater_backup = "support/old_updater.exe"
+            os.rename(current_updater, current_updater_backup)
+        except FileNotFoundError as e:
+            print(f"{e}: {current_updater} not found")
+        except PermissionError as e:
+            print(f"Access denied: {e}")
+        try:
+            """
+            Renaming the new updater to updater.exe
+            """
+            print("Renaming new updater")
+            new_updater = "support/new_updater.exe"
+            os.rename("support/new_updater.exe", "support/updater.exe")
+        except FileNotFoundError as e:
+            print(f"{new_updater} not found: {e}")
+        except PermissionError as e:
+            print(f"Access denied: {e}")
+        # This removes old updater if new one is in place
+        if "support/old_updater.exe" and "support/updater.exe":
+            print("Removing old_updater.exe")
+            try:
+                os.remove("support/old_updater.exe")
+            except FileNotFoundError as e:
+                print(f"old_updater.exe not found: {e}")
+            except PermissionError as e:
+                print(f"Removal is not allowed: {e}")
 
 
 if __name__ == "__main__":

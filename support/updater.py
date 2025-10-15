@@ -14,7 +14,6 @@ sys.stdout = update_log_file
 # Sys argv with link to the source of new version.
 # Passed from the main app
 SOURCE_URL = sys.argv[1]
-# APP_URL = sys.argv[2]
 
 
 # This method is checking the source url

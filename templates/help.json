@@ -8,7 +8,7 @@
     "pic": "customers.jpg"
   },
   "Rezervace": {
-    "text": "Tabulka rezervace slouží k formátování zákaznických rezervací, které chodí emailem.\nPříchozí rezervaci označíme od slova \"Odběratel\" až k času rezervace.  ",
+    "text": "Tabulka rezervace slouží k formátování zákaznických rezervací, které chodí emailem.\nPříchozí rezervaci označíme od slova \"Odběratel\" až k času rezervace a zkopírujeme. Následně text vložíme do buňky A1 (vlevo nahoře). Text se rozdělí do dvou sloupců. Levý sloupec je název položky, který bude při formátování ignorován. Pravý sloupec jsou data, z nichž nekterá se propíší na etiketu. Jedná se o Jméno, příjmení, Produkt, ID, množství a cena.\n Na horní liště v menu Prodejce vybereme osobu, která rezervaci vytváří. Seznam prodejců lze upravit v nastavení. V nastavení lze též upravit nebo vypnout datum, do kdy je rezervace platná.\nTlačítkem FORMAT připravíme data k tisku na Etiketu. Výsledek si můžeme zkontrolovat ve výstupním okně vpravo.\n Výsledek převedeme do formátu txt tlačítkem Do TXT. Pokud se automaticky neotevře výchozí aplikace pro formát .txt, najdeme výstupní soubor ve složce s aplikací jako print_list.txt. Hotový textový soubor následně vytiskneme na etikety.",
     "pic": "reserv.jpg"
   }
 
