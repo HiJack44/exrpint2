@@ -248,7 +248,7 @@ class App(ctik.CTk):
 
 # Updater clean function, that removes old updater and renames the new one
 def updater_cleanup():
-    if "support/new_updater.exe":
+    if Path("support/new_updater.exe").exists():
         print("New_updater in support")
         try:
             """
@@ -275,7 +275,7 @@ def updater_cleanup():
         except PermissionError as e:
             print(f"Access denied: {e}")
         # This removes old updater if new one is in place
-        if "support/old_updater.exe" and "support/updater.exe":
+        if Path("support/old_updater.exe").exists() and Path("support/updater.exe").exists():
             print("Removing old_updater.exe")
             try:
                 os.remove("support/old_updater.exe")
@@ -283,7 +283,8 @@ def updater_cleanup():
                 print(f"old_updater.exe not found: {e}")
             except PermissionError as e:
                 print(f"Removal is not allowed: {e}")
-
+    else:
+        print("Updater is up-to-date")
 
 if __name__ == "__main__":
     update = u.check_update(APP_VERSION, API_SOURCE)
