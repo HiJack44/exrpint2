@@ -285,8 +285,22 @@ def updater_cleanup():
                 print(f"Removal is not allowed: {e}")
     else:
         print("Updater is up-to-date")
+def config_missing_check():
+    print("Checking config.json")
+    if not Path("templates/config.json").exists():
+        try:
+            print("No config.json in templates. Renaming new_config.json")
+            os.rename("templates/new_config.json", "templates/config.json")
+            print("Done")
+        except FileNotFoundError:
+            print("new_config.json not found")
+        except PermissionError as e:
+            print(f"Permission denied: {e}")
+    else:
+        print("Config.json already in templates")
 
 if __name__ == "__main__":
     update = u.check_update(APP_VERSION, API_SOURCE)
+    config_missing_check()
     app = App(update)
     app.mainloop()

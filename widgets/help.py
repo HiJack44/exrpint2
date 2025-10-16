@@ -22,7 +22,7 @@ class HelpWindow(ctik.CTkToplevel):
         self.menu_frame.grid_columnconfigure(0, weight=1)
 
         # Topic frame
-        self.topic_frame = ctik.CTkFrame(self)
+        self.topic_frame = ctik.CTkScrollableFrame(self, width=750, height=690)
         self.topic_frame.grid(row=0, column=1)
         self.topic_frame.grid_columnconfigure(0, weight=1)
         self.topic_frame.grid_rowconfigure((0,1,2), weight=1)
@@ -40,7 +40,7 @@ class HelpWindow(ctik.CTkToplevel):
         # Placing first label. Default is About page
         self.help_page = ctik.CTkLabel(self.topic_frame,
                                        text=self.helper_data["O aplikaci"]["text"],
-                                       wraplength=640
+                                       wraplength=640, justify='left'
                                        )
         self.help_page.grid(row=1, column=0)
 
@@ -56,8 +56,8 @@ class HelpWindow(ctik.CTkToplevel):
 
         # Defining menu buttons
         for i, key in enumerate(self.helper_data):
-            print(key)
-            print(self.helper_data[key]["text"])
+            #print(key)
+            #print(self.helper_data[key]["text"])
             self.topic_button = ctik.CTkButton(self.menu_frame,
                                           text=key,
                                           command=lambda master=self, item=key, img_folder=img_folder_path: load_topic(master,item, img_folder))

@@ -2,6 +2,7 @@
 # separate program to download and deploy new version of the
 # app.
 import json
+import os
 import subprocess
 import requests, zipfile, platform, sys, io
 from pathlib import Path
@@ -117,7 +118,7 @@ def config_check(path):
     print(f"Main path: {main_path}")
     templates_path = main_path / "templates"  # Path to templates
     print(f"Templates path: {templates_path}")
-    if templates_path / "config.json" and templates_path / "new_config.json":
+    if (templates_path / "config.json").exists() and (templates_path / "new_config.json").exists():
         print(f"Config.json and new_config.json in {templates_path}")
         # Loading old config data
         with open(templates_path / "config.json", "r", encoding="utf-8") as oc:
@@ -133,6 +134,16 @@ def config_check(path):
                 old_config[key] = new_config[key]
         print(old_config, templates_path)
         write_config_changes(old_config, templates_path, main_path)
+    # Case of missing config.json. In new builds, there will be only new_config included
+    elif not (templates_path / "config.json").exists():
+        try:
+            print("No config.json in templates. Renaming new_config.json")
+            os.rename(templates_path /"new_config.json", templates_path/"config.json")
+            start_app(main_path)
+        except FileNotFoundError as e:
+            print(f"new_config not found: {e}")
+        except PermissionError as e:
+            print(f"Not allowed: {e}")
     else:
         print(f"Missing file in {templates_path}")
         start_app(main_path)
