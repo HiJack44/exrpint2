@@ -246,6 +246,23 @@ class App(ctik.CTk):
         self.destroy()
 
 
+def no_updater_fix():
+    print(f"Checking if updater.exe exists")
+    if (
+        not Path("support/updater.exe").exists()
+        and Path("support/new_updater.exe").exists()
+    ):
+        try:
+            print(f"Updater.exe does not exists.\nRenaming new_updater")
+            os.rename("support/new_updater.exe", "support/updater.exe")
+        except FileNotFoundError as e:
+            print(f"File not found: {e}")
+        except PermissionError as e:
+            print(f"Access denied: {e}")
+    else:
+        print(f"Updater.exe is in place.")
+
+
 # Updater clean function, that removes old updater and renames the new one
 def updater_cleanup():
     if Path("support/new_updater.exe").exists():
@@ -275,7 +292,10 @@ def updater_cleanup():
         except PermissionError as e:
             print(f"Access denied: {e}")
         # This removes old updater if new one is in place
-        if Path("support/old_updater.exe").exists() and Path("support/updater.exe").exists():
+        if (
+            Path("support/old_updater.exe").exists()
+            and Path("support/updater.exe").exists()
+        ):
             print("Removing old_updater.exe")
             try:
                 os.remove("support/old_updater.exe")
@@ -285,6 +305,8 @@ def updater_cleanup():
                 print(f"Removal is not allowed: {e}")
     else:
         print("Updater is up-to-date")
+
+
 def config_missing_check():
     print("Checking config.json")
     if not Path("templates/config.json").exists():
@@ -299,7 +321,9 @@ def config_missing_check():
     else:
         print("Config.json already in templates")
 
+
 if __name__ == "__main__":
+    no_updater_fix()
     update = u.check_update(APP_VERSION, API_SOURCE)
     config_missing_check()
     app = App(update)
