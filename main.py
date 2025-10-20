@@ -323,8 +323,8 @@ def config_missing_check():
 
 
 if __name__ == "__main__":
+    config_missing_check()
     no_updater_fix()
     update = u.check_update(APP_VERSION, API_SOURCE)
-    config_missing_check()
     app = App(update)
     app.mainloop()
