@@ -4,6 +4,8 @@
 import json
 import os
 import subprocess
+import time
+import shutil
 import requests, zipfile, platform, sys, io
 from pathlib import Path
 
@@ -38,6 +40,8 @@ def check_source(source_url):
         print(f"Failed to load in time: {e}")
     except requests.exceptions.RequestException as e:
         print(f"Something went wrong: {e}")
+    except json.JSONDecodeError as e:
+        print(f"Invalid JSON response: {e}")
 
     # Fetching download url
     print(f"Getting download url")
@@ -83,7 +87,7 @@ def deploy_files(zip_file):
     if platform.system() == "Windows":
         print("System is Windows")
         if getattr(sys, "frozen", False):
-            print("Sys not frozen. Getting safe_path")
+            print("Sys frozen. Getting safe_path")
             safe_path = Path(sys.executable).resolve().parent.parent
             print(f"Safe_path: {safe_path}")
         else:
@@ -93,6 +97,10 @@ def deploy_files(zip_file):
     else:
         print("System is not Windows")
         safe_path = Path().resolve()
+
+    print(f"Old config preparation")
+    old_config_safe = current_config_saver(safe_path)
+
     print(f"Extracting files to {safe_path}")
 
     # File extraction into target folders
@@ -108,9 +116,52 @@ def deploy_files(zip_file):
         print(f"Permission error: {e}")
     else:
         print("Update complete")
-        #start_app(safe_path)
+        if old_config_safe == True:
+            print(f"Old config in place. Calling config shift")
+            config_shift(safe_path)
         config_check(safe_path)
 
+# This function sidelines current config for later use
+def current_config_saver(main_path):
+    """
+
+    :param main_path: Path to the main folder
+    :return: True if old_config was created
+    """
+    config_path = Path(main_path/"templates/config.json")
+    old_config_path = Path(main_path/"templates/old_config.json")
+    print(f"Main path: {main_path}\nConfig path: {config_path}")
+    # Checking if config.json exists
+    try:
+        if config_path.exists():
+            print(f"current_config_saver: Config.json exists")
+            shutil.copy2(config_path, old_config_path)
+            #os.rename(main_path/"templates/config.json", main_path/"templates/old_config.json")
+            print("Config.json -> old_config.json")
+            return True
+        else:
+            print(f"Config.json doesn't exist.")
+            return False
+    except FileNotFoundError as e:
+        print(f"{e}: Config.json not found in {config_path}")
+        return False
+    except PermissionError as e:
+        print(f"Access denied: {e}")
+        return False
+
+def config_shift(path):
+    print("Config shift engaged!")
+    templ_path = path/"templates"
+    old_config = templ_path/"old_config.json"
+    new_config = templ_path/"config.json"
+    if new_config.exists() and old_config.exists():
+        print("Configs in place. Starting renaming")
+        os.rename(new_config, templ_path/"new_config.json")
+        print(f"{new_config} renamed")
+        os.rename(old_config, templ_path/"config.json")
+        print(f"{old_config} renamed")
+    else:
+        print(f"Something is missing")
 
 # This function is checking if there is a new configuration file after update.
 def config_check(path):
@@ -134,6 +185,7 @@ def config_check(path):
                 old_config[key] = new_config[key]
         print(old_config, templates_path)
         write_config_changes(old_config, templates_path, main_path)
+
     # Case of missing config.json. In new builds, there will be only new_config included
     elif not (templates_path / "config.json").exists():
         try:
@@ -162,6 +214,17 @@ def write_config_changes(config_data, templates, main_path):
 
     start_app(main_path)
 
+def restore_config(path):
+    print("Restoring old config.json")
+    try:
+        config_path = Path(path/"templates")
+        os.rename(config_path/"old_config.json", config_path/"config.json")
+        print("Config.json restored. Update unsuccessfull :(\n Restarting the app")
+        start_app(path)
+    except FileNotFoundError as e:
+        print(f"File not found: {e}")
+    except PermissionError as e:
+        print(f"Denied: {e}")
 
 def start_app(path):
     """
@@ -170,6 +233,7 @@ def start_app(path):
     :return: Starts the main app
     """
     print("Restarting the main app")
+    time.sleep(2)
     print(f"Path to main folder: {path}")
     if platform.system() == "Windows":
         if getattr(sys, "frozen", False):
