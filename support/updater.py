@@ -1,6 +1,7 @@
 # This is the updater for exprint2. It will be run as
 # separate program to download and deploy new version of the
 # app.
+import customtkinter as ctik
 import json
 import os
 import subprocess
@@ -8,8 +9,13 @@ import time
 import shutil
 import requests, zipfile, platform, sys, io
 from pathlib import Path
+from datetime import datetime
 
 # Setting up logger to update_log.txt
+_print = print
+
+def print(*args, **kwargs):
+    _print("[%s]" % (datetime.now()), *args, **kwargs)
 update_log_path = Path("support/update_log.txt")
 update_log_file = open(update_log_path, "w")
 sys.stdout = update_log_file
@@ -18,7 +24,6 @@ sys.stdout = update_log_file
 # Passed from the main app
 SOURCE_URL = sys.argv[1]
 
-
 # This method is checking the source url
 def check_source(source_url):
     """
@@ -26,7 +31,7 @@ def check_source(source_url):
     :param source_url: The source of the update zipfile
     :return: It starts download function if everything is ok
     """
-
+    time.sleep(3)
     print(f"Source url: {source_url}")
     print(f"Requesting response")
     try:
