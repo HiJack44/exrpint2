@@ -51,5 +51,8 @@
     "pady": 5,
     "sticky": "w",
     "columnspan": 1
+  },
+  "New": {
+    "new1": 3
   }
 }

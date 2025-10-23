@@ -28,7 +28,7 @@ log_file = open(log_path, "w")
 sys.stdout = log_file
 
 # App version and source for updates
-APP_VERSION = "1.0.0"
+APP_VERSION = "1.2.0"
 API_SOURCE = "https://api.github.com/repos/HiJack44/exrpint2/releases"
 
 # Theme definition
@@ -307,23 +307,8 @@ def updater_cleanup():
         print("Updater is up-to-date")
 
 
-def config_missing_check():
-    print("Checking config.json")
-    if not Path("templates/config.json").exists():
-        try:
-            print("No config.json in templates. Renaming new_config.json")
-            os.rename("templates/new_config.json", "templates/config.json")
-            print("Done")
-        except FileNotFoundError:
-            print("new_config.json not found")
-        except PermissionError as e:
-            print(f"Permission denied: {e}")
-    else:
-        print("Config.json already in templates")
-
 
 if __name__ == "__main__":
-    config_missing_check()
     no_updater_fix()
     update = u.check_update(APP_VERSION, API_SOURCE)
     app = App(update)
